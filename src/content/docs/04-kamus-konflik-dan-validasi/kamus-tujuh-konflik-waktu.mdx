@@ -1,0 +1,33 @@
+---
+title: "Kamus 7 Jenis Bentrokan Waktu (Error)"
+description: "Penyebab dan langkah perbaikan untuk CLASS_OVERLAP, TEACHER_OVERLAP, ROOM_OVERLAP, TEACHER_UNAVAILABLE, ROOM_UNAVAILABLE, OUTSIDE_OPERATING_HOURS, dan BREAK_TIME_OVERLAP."
+order: "4.2"
+---
+
+## Karakteristik Tingkat Keparahan Error
+
+Dalam mesin validasi Schedovyn, tingkat keparahan **Error** (ditandai dengan warna merah dan simbol peringatan) menandakan adanya bentrokan fisik di dunia nyata yang secara logis tidak mungkin dijalankan di sekolah.
+
+Jadwal yang masih memiliki satu saja bentrokan berkategori Error tidak boleh diterapkan di sekolah. Schedovyn akan menampilkan dialog konfirmasi peringatan apabila Anda mencoba mengekspor draf yang masih memuat bentrokan waktu.
+
+<Callout variant="danger" title="Prioritas Tertinggi Perbaikan Jadwal">
+Kesalahan berkategori Error harus diselesaikan sebelum operator menyempurnakan aspek lain. Mengabaikan bentrokan waktu guru atau ruangan akan menyebabkan dua guru hadir di kelas yang sama atau satu guru ditunggu di dua rombel berbeda pada jam yang sama.
+</Callout>
+
+## Rincian 7 Jenis Bentrokan Waktu
+
+Berikut adalah daftar lengkap 7 bentrokan waktu yang dideteksi oleh mesin validasi Schedovyn:
+
+1. **`CLASS_OVERLAP` (Jadwal Kelas Tumpang Tindih):** Dua atau lebih sesi mata pelajaran dijadwalkan pada rombel yang sama di jam yang beririsan. Sesi akan tampil berdampingan dalam cluster overlap.
+2. **`TEACHER_OVERLAP` (Bentrokan Jadwal Guru):** Guru yang sama ditugaskan mengajar di dua atau lebih kelas yang berbeda pada jam yang saling bersinggungan.
+3. **`ROOM_OVERLAP` (Bentrokan Pemakaian Ruangan):** Ruangan atau fasilitas khusus yang sama (misalnya Lab Komputer) dialokasikan untuk lebih dari satu kelas pada jam yang sama.
+4. **`TEACHER_UNAVAILABLE` (Guru Tidak Bersedia):** Sesi ditempatkan pada jam atau hari di mana guru yang bersangkutan telah ditandai sedang berhalangan hadir atau libur di Data Master.
+5. **`ROOM_UNAVAILABLE` (Ruangan Tidak Tersedia):** Sesi ditempatkan di luar batas jam operasional ruangan yang telah ditentukan di Data Master.
+6. **`OUTSIDE_OPERATING_HOURS` (Sesi di Luar Jam Belajar):** Waktu mulai atau durasi sesi melewati batas jam sekolah harian yang ditetapkan pada menu Pengaturan.
+7. **`BREAK_TIME_OVERLAP` (Sesi Beririsan dengan Waktu Istirahat):** Rentang jam pelaksanaan sesi menabrak periode waktu istirahat resmi sekolah.
+
+## Penjelajah Interaktif Bentrokan Waktu
+
+Gunakan penjelajah interaktif di bawah ini untuk mempelajari pemicu serta langkah praktis mengatasi setiap bentrokan:
+
+<ConflictDictionaryExplorer initialFilter="ERROR" />

@@ -1,0 +1,29 @@
+---
+title: "Memilih & Berpindah Kelas Aktif"
+description: "Cara berpindah antar-rombongan belajar di editor dan membaca indikator kuota sesi Terjadwal serta Belum Terjadwal."
+order: "3.1"
+---
+
+## Mekanisme Pemilihan Kelas Aktif
+
+Schedovyn menempatkan efisiensi operator sebagai prioritas utama. Melalui **Class Selector Bar** yang terletak tepat di atas kanvas waktu mingguan, Anda dapat beralih dari satu rombongan belajar ke rombongan belajar lainnya hanya dalam satu klik.
+
+Daftar kelas diurutkan secara hierarkis berdasarkan jenjang tingkatan dan abjad nama kelas (misalnya dari `Kelas VII-A`, `Kelas VII-B`, hingga `Kelas IX-C`).
+
+## Membaca Indikator Kuota Sesi Mingguan
+
+Tepat di samping tombol pemilih kelas, terdapat indikator kuota sesi yang merangkum kemajuan penjadwalan kelas yang sedang aktif secara real-time:
+
+- **Format Kuota:** Menampilkan format angka `Terjadwal: X / Y sesi (Sisa Z sesi)`.
+- **Status Alokasi:**
+  - Jika angka terjadwal kurang dari total target kebutuhan (`X < Y`), lencana menandakan masih ada sesi yang harus ditempatkan dari panel kiri.
+  - Jika angka terjadwal persis sama dengan target (`X === Y`), seluruh alokasi kebutuhan kurikulum kelas aktif telah terpenuhi.
+  - Jika melebihi target (`X > Y`), sistem akan memunculkan peringatan kelengkapan `OVER_SCHEDULED_SESSION`.
+
+## Isolasi Visual dan Validasi Lintas Kelas
+
+Saat Anda berpindah dari Kelas VII-A ke Kelas VII-B, kanvas tengah langsung menampilkan matriks jadwal milik Kelas VII-B.
+
+<Callout variant="info" title="Validasi Latar Belakang Seluruh Sekolah">
+Meskipun tampilan kanvas berfokus pada kelas aktif, mesin validasi Schedovyn tetap aktif menghitung seluruh data kelas lainnya. Jika Anda menempatkan guru yang sudah terjadwal di Kelas VII-A pada hari Senin pukul 08:00 ke dalam Kelas VII-B di jam yang sama, lencana bentrokan guru `TEACHER_OVERLAP` akan langsung menyala seketika.
+</Callout>

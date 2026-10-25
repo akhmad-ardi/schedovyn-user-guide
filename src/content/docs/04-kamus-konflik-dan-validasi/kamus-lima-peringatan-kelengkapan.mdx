@@ -1,0 +1,31 @@
+---
+title: "Kamus 5 Peringatan Kelengkapan (Warning)"
+description: "Penjelasan dan cara mengatasi UNFULFILLED_REQUIREMENT, OVER_SCHEDULED_SESSION, MISSING_TEACHER, MISSING_REQUIRED_ROOM, dan UNCONFIGURED_CLASS."
+order: "4.3"
+---
+
+## Memahami Tingkat Keparahan Peringatan
+
+Tingkat keparahan **Warning** (ditandai dengan warna kuning) menunjukkan bahwa jadwal tidak memiliki bentrokan fisik jam belajar guru maupun ruangan, namun susunan jadwal belum memenuhi target kurikulum atau standar kelengkapan administrasi akademik.
+
+Berbeda dengan bentrokan berkategori Error yang menimbulkan kekacauan operasional fisik, jadwal yang masih memiliki status Warning secara teknis tetap dapat diekspor, namun operator disarankan menyelesaikannya agar jam belajar siswa terpenuhi secara utuh.
+
+<Callout variant="warning" title="Pemenuhan Standar Beban Belajar">
+Peringatan kelengkapan membantu operator memastikan seluruh jam tatap muka yang diwajibkan oleh kurikulum nasional telah terjadwal secara akurat tanpa ada kelas atau guru yang tertinggal.
+</Callout>
+
+## Rincian 5 Jenis Peringatan Kelengkapan
+
+Schedovyn mendeteksi 5 jenis peringatan kelengkapan data berikut:
+
+1. **`UNFULFILLED_REQUIREMENT` (Alokasi Sesi Belum Lengkap):** Masih terdapat kartu mata pelajaran yang belum dialokasikan ke kisi jadwal mingguan sehingga jam belajar siswa belum tuntas.
+2. **`OVER_SCHEDULED_SESSION` (Alokasi Sesi Melebihi Kebutuhan):** Jumlah sesi yang ditempatkan di grid melebihi target tatap muka mingguan yang ditentukan di Data Master.
+3. **`MISSING_TEACHER` (Guru Belum Ditentukan):** Sesi ditempatkan ke jadwal namun guru pengajarnya masih kosong.
+4. **`MISSING_REQUIRED_ROOM` (Ruangan Khusus Belum Dipilih):** Sesi mata pelajaran yang memiliki kewajiban ruangan khusus (misalnya IPA atau PJOK) ditempatkan ke grid tanpa memilih ruangan laboratorium atau lapangan.
+5. **`UNCONFIGURED_CLASS` (Kelas Belum Dikonfigurasi):** Terdapat rombongan belajar di sekolah yang belum memiliki data kebutuhan pembelajaran mingguan sama sekali.
+
+## Penjelajah Interaktif Peringatan Kelengkapan
+
+Pelajari langkah perbaikan masing-masing peringatan kelengkapan menggunakan alat bantu interaktif berikut:
+
+<ConflictDictionaryExplorer initialFilter="WARNING" />

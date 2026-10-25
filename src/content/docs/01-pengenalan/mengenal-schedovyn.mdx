@@ -1,0 +1,35 @@
+---
+title: "Mengenal Schedovyn & Prinsip Kerja"
+description: "Konsep penyuntingan per kelas aktif dengan deteksi bentrokan di seluruh ruang kerja sekolah secara real-time dan local-first."
+order: "1.1"
+---
+
+## Filosofi Penyuntingan Berbasis Kelas
+
+Schedovyn dirancang khusus untuk memecahkan kerumitan penyusunan jadwal pelajaran sekolah melalui pendekatan **Class-Oriented Editing, Workspace-Wide Validation**. 
+
+Saat Anda menyusun jadwal, fokus visual Anda terpusat pada satu rombongan belajar aktif pada satu waktu (misalnya Kelas VII-A). Pendekatan ini membuat kanvas editor tetap bersih, fokus, dan mudah dinavigasi tanpa gangguan visual dari puluhan kelas lain.
+
+Namun, di balik layar, mesin validasi Schedovyn memantau seluruh ruang kerja sekolah secara serentak. Setiap kali Anda menempatkan atau menggeser blok sesi pembelajaran, sistem langsung memverifikasi apakah guru pengajar yang sama sedang ditugaskan di kelas lain pada jam yang sama, atau apakah fasilitas ruangan khusus sedang dipakai bersamaan.
+
+<Callout variant="info" title="Prinsip Validasi Seluruh Sekolah">
+Penyuntingan dilakukan per kelas aktif untuk menjaga konsentrasi operator, namun deteksi bentrokan selalu memeriksa seluruh rombongan belajar di sekolah secara otomatis tanpa jeda.
+</Callout>
+
+## Arsitektur Local-First dan Zero-Login
+
+Schedovyn beroperasi dengan arsitektur **Local-First**. Seluruh data ruang kerja, mulai dari pengaturan jam belajar, data guru, mata pelajaran, hingga matriks jadwal harian, tersimpan secara utuh di database lokal peramban Anda menggunakan teknologi IndexedDB.
+
+Keunggulan utama pendekatan ini antara lain:
+
+1. **Privasi Maksimal (Zero-Login):** Anda tidak perlu mendaftar akun atau memasukkan kata sandi. Tidak ada data nama guru, siswa, atau jadwal sekolah yang dikirim ke peladen (*server*) pihak ketiga.
+2. **Kinerja Instan:** Operasi pemindahan sesi, penataan ulang hari, dan perhitungan bentrokan terjadi langsung di prosesor komputer Anda tanpa latensi jaringan internet.
+3. **Ketahanan Operasional:** Anda dapat terus bekerja menyusun jadwal saat koneksi internet sekolah terputus atau tidak stabil.
+
+## Tingkat Status Validasi Jadwal
+
+Untuk memandu operator menuju jadwal yang sempurna dan siap cetak, Schedovyn menyediakan indikator status validasi cerdas pada bilah toolbar editor:
+
+<ValidationStatusBadgesReplica />
+
+Lencana validasi di atas memberikan umpan balik langsung. Status **Konflik ditemukan** menandakan adanya bentrokan fisik yang harus diatasi, status **Belum lengkap** menandakan masih ada target kurikulum yang belum ditempatkan, status **Tidak ada konflik pada data saat ini** menandakan kelas aktif sudah beres namun kelas lain masih butuh penyesuaian, dan status **Jadwal lengkap dan valid** menandakan seluruh kelas di sekolah telah 100% tuntas dan siap diekspor.

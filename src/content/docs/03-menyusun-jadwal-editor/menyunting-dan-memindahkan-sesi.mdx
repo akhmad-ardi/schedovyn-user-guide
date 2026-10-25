@@ -1,0 +1,33 @@
+---
+title: "Menyunting, Memindahkan, dan Melepas Sesi di Grid"
+description: "Menggeser jam mulai sesi, mengganti guru atau ruangan lewat Panel Detail Sesi, memahami tampilan overlap cluster, dan tombol Lepas dari Grid."
+order: "3.3"
+---
+
+## Interaksi Menggeser dan Menata Ulang Jam Sesi
+
+Setelah sesi berada di kanvas waktu mingguan, Anda dapat mengatur ulang posisinya dengan sangat mudah:
+
+- **Geser dengan Mouse:** Klik dan seret blok sesi ke jam atau hari lain pada kanvas.
+- **Geser dengan Pintasan Keyboard:** Klik blok sesi untuk memilihnya, lalu tekan `Alt + ArrowUp` atau `Alt + ArrowDown` untuk menggeser jam maju/mundur sebesar interval snap kisi waktu, atau gunakan `Alt + ArrowLeft` / `Alt + ArrowRight` untuk memindahkan sesi ke hari sebelumnya/berikutnya.
+
+## Formulir Panel Detail Sesi
+
+Saat sebuah blok sesi diklik, **Panel Detail Sesi** di sebelah kanan layar akan terbuka secara otomatis. Melalui panel ini, operator dapat melakukan penyesuaian mendalam:
+
+1. **Jam Mulai Presisi:** Mengatur menit jam mulai secara manual jika menginginkan waktu di luar pembagi kisi snap.
+2. **Penggantian Guru Khusus:** Menetapkan guru pengganti khusus untuk sesi ini tanpa mengubah guru default di data master.
+3. **Pemilihan Ruangan Khusus:** Memilih fasilitas laboratorium, ruang serbaguna, atau lapangan olahraga.
+4. **Catatan Sesi:** Menambahkan catatan operasional (misalnya "Membawa modul praktikum optik").
+
+## Memahami Tampilan Overlap Cluster dan Aksi Pelepasan
+
+Apabila dua atau lebih sesi pembelajaran tanpa sengaja ditempatkan pada rentang jam yang sama dalam satu rombel, Schedovyn akan mengelompokkannya ke dalam tampilan **Overlap Cluster**. Blok-blok sesi tersebut akan membagi lebar kolom secara seimbang dan dibingkai dengan garis merah peringatan kesalahan bentrokan `CLASS_OVERLAP`.
+
+<SessionBlockOverlapReplica />
+
+Untuk mengatasi tumpang-tindih tersebut, Anda dapat menggeser salah satu sesi ke slot jam kosong atau mengeluarkannya kembali ke daftar antrean.
+
+<Callout variant="warning" title="Pelepasan Sesi Kembali ke Antrean">
+Untuk mengembalikan sesi dari kanvas grid kembali ke panel sesi yang belum dialokasikan, buka formulir detail sesi lalu klik tombol **Lepas dari Grid**, atau cukup pilih blok sesi di kanvas dan tekan tombol `Delete` atau `Backspace` pada keyboard Anda. Sesi akan kembali masuk ke antrean tanpa menghapus target kebutuhan kurikulum.
+</Callout>

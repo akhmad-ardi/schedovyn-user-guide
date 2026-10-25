@@ -1,0 +1,50 @@
+---
+title: "Mengelola Kelas, Guru, Mata Pelajaran, dan Ruangan"
+description: "Panduan mendaftarkan rombongan belajar, memilih warna mata pelajaran, mengatur waktu tidak bersedia guru, dan ketersediaan ruangan."
+order: "2.2"
+---
+
+## Manajemen Rombongan Belajar (Kelas)
+
+Data rombongan belajar dikelola pada tab **Data Master** sub-tab **Kelas**. Setiap entri kelas mewakili rombongan belajar unik di sekolah Anda, misalnya `Kelas VII-A`, `Kelas VII-B`, dan `Kelas VIII-A`.
+
+Saat mendaftarkan kelas baru, Anda diminta memasukkan:
+
+1. **Tingkat Kelas:** Angka atau jenjang kelas, misalnya `7`, `8`, atau `9`.
+2. **Nama Rombongan Belajar:** Nama pembeda rombel, misalnya `VII-A` atau `IX Unggulan`.
+3. **Kapasitas dan Ruang Asal:** Ruangan homeroom utama yang ditempati rombel tersebut sehari-hari.
+
+<Callout variant="danger" title="Peringatan Penghapusan Kaskade (Cascade Delete)">
+Menghapus rombongan belajar akan secara otomatis menghapus seluruh kebutuhan pembelajaran dan sesi jadwal yang telah disusun untuk kelas tersebut. Tindakan penghapusan kelas tidak dapat dibatalkan melalui riwayat Batal Perubahan di kanvas editor.
+</Callout>
+
+## Kode Warna Mata Pelajaran Resmi
+
+Schedovyn menggunakan kode warna khusus untuk membedakan mata pelajaran secara sekilas pada kanvas grid editor maupun dokumen cetak. Tersedia 10 kode warna visual resmi yang terkalibrasi dengan kontras tinggi:
+
+| Kode Warna | Nama Palet | Rekomendasi Kelompok Mata Pelajaran |
+| :--- | :--- | :--- |
+| `blue` | Sky Blue | Matematika, Fisika, Sains Eksakta |
+| `emerald` | Emerald Green | Pendidikan Agama, Budi Pekerti, Biologi |
+| `violet` | Vivid Violet | Bahasa Indonesia, Bahasa Asing |
+| `cyan` | Cyan Teal | Teknologi Informasi dan Komunikasi (TIK) |
+| `indigo` | Deep Indigo | Ilmu Pengetahuan Sosial (IPS), Sejarah |
+| `teal` | Ocean Teal | Geografi, Pendidikan Kewarganegaraan (PKn) |
+| `fuchsia` | Bright Fuchsia | Seni Budaya, Kerajinan Tangan, Musik |
+| `pink` | Rose Pink | Prakarya, Muatan Lokal |
+| `slate` | Neutral Slate | Bimbingan Konseling (BK), Pengembangan Diri |
+| `orange` | Sunset Orange | Pendidikan Jasmani, Olahraga, dan Kesehatan (PJOK) |
+
+Warna yang dipilih akan menghiasi kartu sesi di panel kiri dan blok waktu di kanvas editor, memudahkan operator mengenali distribusi sebaran mata pelajaran dalam satu minggu.
+
+## Pembatasan Waktu Hadir Guru dan Pemakaian Ruangan
+
+Guru dan fasilitas ruangan sering kali memiliki batasan fisik atau kesepakatan waktu yang wajib dipatuhi:
+
+### Pengaturan Waktu Tidak Bersedia Guru (Teacher Unavailability)
+Pada sub-tab **Guru**, Anda dapat mendaftarkan interval waktu berhalangan hadir untuk guru tertentu (misalnya dosen tamu atau guru paruh waktu yang hanya bisa mengajar setelah jam istirahat siang, atau libur setiap hari Selasa). Jika sesi mata pelajaran ditempatkan pada jam tersebut, mesin validasi akan menandai bentrokan `TEACHER_UNAVAILABLE`.
+
+### Pengaturan Ketersediaan Ruangan Khusus (Room Availability)
+Pada sub-tab **Ruangan**, daftarkan ruang kelas teori dan fasilitas khusus:
+- **Tipe Ruangan:** Pilih kategori `Ruang Kelas`, `Laboratorium`, `Lapangan / Olahraga`, atau `Ruang Serbaguna`.
+- **Jam Pakai Khusus:** Anda dapat membatasi jam operasional ruangan, misalnya Laboratorium Komputer yang hanya dibuka antara pukul `08:00 - 13:00`.

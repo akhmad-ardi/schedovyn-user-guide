@@ -1,0 +1,36 @@
+---
+title: "Memasang Aplikasi ke Komputer & Bekerja Offline (PWA)"
+description: "Cara menggunakan tombol Pasang Aplikasi di header untuk menjalankan Schedovyn tanpa internet dan memperbarui versi aplikasi."
+order: "6.2"
+---
+
+## Manfaat Aplikasi Mandiri Progressive Web App
+
+Schedovyn dibangun dengan standar teknologi modern **Progressive Web App (PWA)**. Teknologi ini memungkinkan Anda memasang aplikasi web langsung ke sistem operasi komputer (Windows, macOS, atau Linux) layaknya aplikasi desktop konvensional tanpa perlu mengunduh file penginstal berukuran besar.
+
+Keunggulan utama menjalankan Schedovyn sebagai aplikasi PWA:
+
+1. **Jendela Kerja Mandiri:** Aplikasi berjalan di jendela terpisah tanpa gangguan bilah alamat URL peramban, tab lain, atau ekstensi yang mempersempit layar kerja.
+2. **Ikon Desktop & Menu Mulai:** Anda dapat membuka aplikasi secara instan melalui pintasan desktop atau daftar program di menu Start.
+3. **Dukungan Penuh Tanpa Internet:** Berkat *service worker* pintar, aplikasi dapat dibuka dan dijalankan 100% tanpa sambungan internet. Anda dapat menyusun jadwal di perjalanan atau di ruang rapat tanpa koneksi Wi-Fi.
+
+## Langkah Memasang Aplikasi ke Komputer
+
+Pemasangan aplikasi dapat dilakukan hanya dalam dua langkah sederhana:
+
+<StepList>
+<StepItem step="1" title="Tekan Tombol Pasang Aplikasi di Header Bar">
+Buka aplikasi Schedovyn di peramban berbasis Chromium (seperti Google Chrome, Microsoft Edge, atau Brave). Temukan dan klik tombol **Pasang Aplikasi** yang terletak di sisi kanan bilah header atas.
+</StepItem>
+<StepItem step="2" title="Konfirmasi Dialog Pemasangan Desktop">
+Pada dialog konfirmasi yang dimunculkan oleh peramban sistem, tekan tombol **Pasang** (*Install*). Jendela aplikasi mandiri Schedovyn akan langsung terbuka seketika dan ikon aplikasi otomatis ditambahkan ke desktop serta menu sistem operasi Anda.
+</StepItem>
+</StepList>
+
+## Pembaruan Otomatis dan Bekerja Offline Penuh
+
+Aplikasi PWA Schedovyn memiliki siklus pembaruan yang mulus:
+
+<Callout variant="tip" title="Pemberitahuan Pembaruan Versi Aplikasi">
+Saat Anda terhubung kembali ke jaringan internet dan tim pengembang merilis pembaruan fitur baru, aplikasi akan menampilkan notifikasi **Pembaruan Aplikasi Tersedia** di sudut bawah layar. Anda cukup mengeklik tombol muat ulang untuk langsung menikmati versi terbaru tanpa kehilangan data jadwal yang tersimpan di IndexedDB.
+</Callout>

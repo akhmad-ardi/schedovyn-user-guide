@@ -1,0 +1,32 @@
+---
+title: "Menggunakan Riwayat Perubahan (Undo & Redo)"
+description: "Membatalkan atau mengulangi hingga 50 langkah penyuntingan terakhir menggunakan tombol Batal Perubahan dan Ulangi Perubahan."
+order: "3.4"
+---
+
+## Cara Kerja Tumpukan Riwayat Lokal
+
+Dalam proses penyusunan jadwal sekolah yang padat, operator sering kali perlu melakukan uji coba pemindahan sesi, penataan ulang jam belajar, atau pembatalan langkah yang memicu bentrokan waktu.
+
+Schedovyn dilengkapi sistem riwayat perubahan mandiri (*history stack*) yang mencatat setiap mutasi jadwal di memori peramban hingga 50 langkah interaksi terakhir. Fitur ini memberi Anda kebebasan penuh bereksperimen tanpa rasa cemas kehilangan susunan jadwal terbaik sebelumnya.
+
+## Tombol Toolbar dan Pintasan Keyboard
+
+Anda dapat menavigasi riwayat perubahan melalui bilah alat editor maupun kombinasi tombol keyboard:
+
+- **Batal Perubahan (Undo):**
+  - Klik tombol **Batal Perubahan** pada toolbar editor, atau
+  - Tekan pintasan `Ctrl+Z` (Windows/Linux) atau `Cmd+Z` (macOS).
+  - Aksi ini akan mengembalikan posisi sesi, penugasan guru, atau status alokasi ke kondisi sebelum mutasi terakhir dilakukan.
+- **Ulangi Perubahan (Redo):**
+  - Klik tombol **Ulangi Perubahan** pada toolbar editor, atau
+  - Tekan pintasan `Ctrl+Y` / `Ctrl+Shift+Z` (Windows/Linux) atau `Cmd+Shift+Z` (macOS).
+  - Aksi ini akan mengaplikasikan kembali langkah yang baru saja Anda batalkan selama belum ada mutasi baru yang menimpa tumpukan riwayat.
+
+## Batasan Cakupan Riwayat Perubahan
+
+Sistem riwayat perubahan Schedovyn beroperasi pada konteks manipulasi sesi kanvas editor:
+
+<Callout variant="tip" title="Cakupan Tindakan yang Dicatat">
+Tindakan yang dicatat dalam riwayat mencakup penempatan sesi baru ke grid, pergeseran jam atau hari sesi, perubahan guru/ruangan sesi di Panel Detail, serta pelepasan sesi kembali ke panel belum terjadwal. Namun, mutasi konfigurasi master pada tab Data Master (seperti penghapusan rombel kelas atau perubahan jam sekolah) bersifat langsung dan tidak terikat pada tumpukan tombol **Batal Perubahan** di editor jadwal.
+</Callout>

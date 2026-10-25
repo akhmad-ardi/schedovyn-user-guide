@@ -1,0 +1,42 @@
+---
+title: "Menggunakan Dialog Ringkasan Validasi & Matriks Kelas"
+description: "Membandingkan status kelas aktif terhadap seluruh ruang kerja dan melompat langsung ke kelas yang masih memiliki kendala."
+order: "4.4"
+---
+
+## Membuka Dialog Ringkasan Validasi
+
+Saat mengelola jadwal untuk puluhan rombongan belajar, operator membutuhkan cara cepat untuk memantau rombel mana saja yang sudah selesai dan rombel mana yang masih memiliki bentrokan aktif.
+
+Anda dapat membuka **Dialog Ringkasan Validasi** dengan mengeklik lencana status validasi yang berada di sebelah kanan bilah toolbar editor kapan saja.
+
+## Membaca Tab Ringkasan dan Matriks Kelas
+
+Dialog ini menyajikan visualisasi data yang komprehensif melalui dua tab utama:
+
+1. **Tab Ringkasan Kelas Aktif vs Seluruh Sekolah:** Menyajikan perbandingan metrik status kelas yang sedang disunting saat ini terhadap kesehatan jadwal seluruh sekolah secara agregat.
+2. **Tab Matriks Kelengkapan Kelas:** Menampilkan tabel matriks seluruh rombongan belajar di sekolah. Setiap baris memuat:
+   - Nama Rombongan Belajar (misalnya `Kelas VII-A`, `Kelas VII-B`).
+   - Rasio Sesi Terjadwal terhadap Target Kebutuhan (misalnya `32 / 32 sesi`).
+   - Lencana Status Validasi per Kelas (Lengkap, Kurang, atau Bentrok).
+   - Daftar Rincian Bentrokan Aktif (kode error dan peringatan yang masih terjadi).
+
+## Navigasi Langsung ke Kelas Bermasalah
+
+Tabel Matriks Kelengkapan Kelas bukan sekadar laporan pasif, melainkan alat navigasi kerja yang interaktif:
+
+<StepList>
+<StepItem step="1" title="Buka Dialog Ringkasan Validasi">
+Klik lencana status validasi pada bilah toolbar editor kelas aktif.
+</StepItem>
+<StepItem step="2" title="Pilih Rombongan Belajar yang Memiliki Bentrokan">
+Periksa baris kelas yang ditandai dengan lencana merah Konflik ditemukan atau lencana kuning Belum lengkap pada tabel matriks.
+</StepItem>
+<StepItem step="3" title="Gunakan Tombol Aksi Lompat ke Kelas">
+Klik tombol navigasi **Buka Kelas** di ujung baris tabel. Dialog akan tertutup secara otomatis dan kanvas editor langsung memuat rombel tersebut serta menyorot sesi yang mengalami bentrokan waktu.
+</StepItem>
+</StepList>
+
+<Callout variant="tip" title="Pemeriksaan Berkala Sebelum Rapat Kurikulum">
+Gunakan tabel Matriks Kelengkapan Kelas untuk mengecek progres penyusunan jadwal sekolah secara keseluruhan sebelum mencetak jadwal untuk dibagikan dalam rapat koordinasi awal semester.
+</Callout>

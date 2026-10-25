@@ -1,0 +1,44 @@
+---
+title: "Mengatur Identitas Sekolah & Jam Belajar"
+description: "Cara mengubah nama ruang kerja, periode akademik, interval snap, hari sekolah aktif, jam operasional harian, dan waktu istirahat."
+order: "2.1"
+---
+
+## Mengatur Identitas Ruang Kerja dan Periode
+
+Konfigurasi ruang kerja adalah fondasi utama sebelum menyusun jadwal pelajaran. Melalui tab **Pengaturan**, staf kurikulum dapat menyesuaikan parameter institusi pendidikan agar selaras dengan kalender akademik resmi sekolah.
+
+Pada kartu Identitas Sekolah, tentukan:
+
+1. **Nama Ruang Kerja:** Masukkan nama resmi satuan pendidikan, misalnya `SMP Negeri 1 Nusantara`. Nama ini akan dicetak pada header dokumen ekspor PDF dan buku kerja Excel.
+2. **Periode Akademik:** Masukkan semester dan tahun ajaran aktif, misalnya `Semester Ganjil 2026/2027`.
+3. **Interval Snap Waktu:** Pilih nilai pembagi kisi waktu di kanvas editor. Pilihan interval mencakup `15 menit`, `30 menit`, `45 menit`, atau `60 menit`. Pilihan ini menentukan lompatan jam mulai saat Anda menggeser blok sesi dengan mouse atau pintasan keyboard.
+
+## Konfigurasi Hari Sekolah dan Jam Operasional
+
+Schedovyn mendukung fleksibilitas 5 hari kerja (Senin sampai Jumat) maupun 6 hari kerja (Senin sampai Sabtu), lengkap dengan jam mulai dan jam pulang yang berbeda setiap harinya.
+
+<StepList>
+<StepItem step="1" title="Pilih Hari Aktif Belajar">
+Centang atau aktifkan sakelar hari sekolah yang menyelenggarakan kegiatan belajar mengajar. Hari yang dinonaktifkan (misalnya Sabtu dan Minggu) tidak akan dimunculkan sebagai kolom waktu pada kanvas editor.
+</StepItem>
+<StepItem step="2" title="Tentukan Jam Operasional Harian">
+Atur jam awal pelajaran dimulai (misalnya pukul `07:00`) dan jam kepulangan terakhir (misalnya pukul `14:30`). Khusus hari Jumat, Anda dapat menyesuaikan jam pulang lebih awal, misalnya pukul `11:30`, agar tidak bertabrakan dengan waktu ibadah salat Jumat.
+</StepItem>
+<StepItem step="3" title="Terapkan Snap ke Seluruh Hari">
+Gunakan tombol opsi **Terapkan ke Seluruh Hari** jika seluruh hari sekolah memiliki jam mulai dan interval snap yang seragam untuk mempercepat pengisian data.
+</StepItem>
+</StepList>
+
+## Menetapkan Periode Waktu Istirahat
+
+Waktu istirahat (*Break Time*) berfungsi sebagai pembatas jadwal otomatis. Mesin validasi Schedovyn akan langsung menandai kesalahan bentrokan `BREAK_TIME_OVERLAP` apabila ada sesi mata pelajaran yang menabrak jam istirahat sekolah.
+
+Operator dapat mendaftarkan beberapa periode istirahat dalam sehari, misalnya:
+
+- **Istirahat Pagi:** `09:30 - 10:00` (durasi 30 menit)
+- **Istirahat Siang / Salat:** `12:00 - 12:45` (durasi 45 menit)
+
+<Callout variant="warning" title="Perhatian Perubahan Jam Belajar pada Sesi Terjadwal">
+Jika Anda memperpendek jam operasional harian atau menambah periode istirahat baru di jam yang sudah memuat sesi pembelajaran aktif, sesi tersebut akan langsung memicu peringatan bentrokan bentrok waktu istirahat atau sesi di luar jam operasional. Periksa kembali kanvas editor setelah mengubah pengaturan ini.
+</Callout>

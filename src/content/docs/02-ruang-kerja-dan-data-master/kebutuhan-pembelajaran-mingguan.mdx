@@ -1,0 +1,42 @@
+---
+title: "Menyusun Kebutuhan Pembelajaran Mingguan"
+description: "Menentukan alokasi mata pelajaran per kelas, guru pengajar default, target sesi per minggu, durasi sesi, dan kewajiban ruangan khusus."
+order: "2.3"
+---
+
+## Konsep Kebutuhan Pembelajaran Mingguan
+
+Kebutuhan Pembelajaran (*Teaching Requirements*) merupakan jembatan penghubung antara struktur kurikulum sekolah dengan kartu sesi yang akan dijadwalkan pada kanvas editor. 
+
+Alih-alih membuat sesi manual satu per satu secara berulang, Anda cukup mendefinisikan berapa sesi tatap muka yang wajib diselesaikan setiap minggunya untuk masing-masing rombongan belajar. Schedovyn secara otomatis akan membangkitkan kartu-kartu sesi tersebut di panel **Sesi Belum Terjadwal** siap untuk ditempatkan.
+
+## Parameter Konfigurasi Kebutuhan Belajar
+
+Setiap butir kebutuhan pembelajaran mencakup parameter berikut:
+
+1. **Kelas Sasaran:** Rombongan belajar yang akan menerima materi pelajaran.
+2. **Mata Pelajaran:** Bidang studi yang diajarkan.
+3. **Guru Pengajar Default:** Guru yang bertanggung jawab mengajar mata pelajaran tersebut di kelas yang bersangkutan.
+4. **Target Sesi per Minggu (`sessionsPerWeek`):** Frekuensi pertemuan tatap muka mingguan, misalnya `2 sesi` atau `4 sesi`.
+5. **Durasi per Sesi (`durationMinutes`):** Panjang waktu belajar untuk satu kali pertemuan, misalnya `40 menit`, `80 menit` (2 jam pelajaran blok), atau `90 menit`.
+6. **Ruangan Default:** Ruangan khusus yang dialokasikan otomatis saat sesi ditempatkan.
+
+<StepList>
+<StepItem step="1" title="Buka Tab Data Master Sub-Tab Kebutuhan">
+Pilih kelas yang akan dikonfigurasi dari menu pemilih kelas atau buat entri baru secara berurutan per mata pelajaran.
+</StepItem>
+<StepItem step="2" title="Tentukan Target Pertemuan dan Durasi Jam">
+Masukkan jumlah sesi per minggu dan durasi menit per pertemuan sesuai alokasi kurikulum standar nasional sekolah Anda.
+</StepItem>
+<StepItem step="3" title="Tautkan Guru Pengajar dan Ruangan Khusus">
+Pilih guru pengampu tetap dan pilih ruangan default untuk mempercepat penyusunan tanpa perlu memilih guru dan ruangan berulang kali di editor.
+</StepItem>
+</StepList>
+
+## Penegakan Ruangan Khusus pada Jadwal
+
+Sebagian mata pelajaran praktikum tidak dapat dilangsungkan di ruang kelas teori biasa. Schedovyn menyediakan opsi sakelar **Wajib Ruangan Khusus** (`roomRequired: true`).
+
+<Callout variant="tip" title="Otomatisasi Validasi Fasilitas Khusus">
+Ketika opsi Wajib Ruangan Khusus diaktifkan (misalnya untuk mata pelajaran IPA di Laboratorium atau PJOK di Lapangan Olahraga), mesin validasi Schedovyn akan langsung memunculkan peringatan kelengkapan `MISSING_REQUIRED_ROOM` jika sesi tersebut ditempatkan ke grid tanpa memilih ruangan laboratorium yang valid.
+</Callout>

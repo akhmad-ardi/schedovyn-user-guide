@@ -1,0 +1,60 @@
+---
+title: "Studi Kasus: Menyusun Jadwal SMP Negeri 1 Nusantara dari Nol"
+description: "Tutorial terpadu menyusun jadwal 2 kelas paralel, menangani guru lintas kelas, menyalin jadwal, hingga mencapai status Jadwal lengkap dan valid."
+order: "6.4"
+---
+
+## Profil Sekolah dan Tantangan Jadwal Nyata
+
+Untuk memberikan gambaran nyata penerapan Schedovyn di lingkungan sekolah Indonesia, panduan ini mengangkat studi kasus operasional penyusunan jadwal di **SMP Negeri 1 Nusantara**.
+
+SMP Negeri 1 Nusantara memiliki dua rombongan belajar paralel, yaitu **Kelas VII-A** dan **Kelas VII-B**, dengan dinamika guru pengajar serta fasilitas laboratorium yang harus dibagi bersama:
+
+1. **Rombongan Belajar:** Kelas VII-A dan Kelas VII-B.
+2. **Dewan Guru Pengampu:**
+   - **Budi Santoso, S.Pd.** (mengajar Matematika untuk Kelas VII-A dan Kelas VII-B).
+   - **Siti Aminah, M.Pd.** (mengajar IPA untuk Kelas VII-A dan Kelas VII-B).
+   - **Ahmad Fauzi, S.Pd.** (mengajar Bahasa Indonesia).
+3. **Fasilitas Bersama:** Ruang **Lab IPA** yang hanya ada satu unit di sekolah dan wajib digunakan saat praktikum mata pelajaran IPA.
+4. **Batasan Waktu Khusus:**
+   - Guru Siti Aminah, M.Pd. memiliki tugas pembinaan dinas sehingga berhalangan hadir setiap hari Jumat pagi.
+   - Jam kegiatan belajar mengajar pada hari Jumat berakhir lebih awal, yaitu pukul 11:30.
+
+Tantangan utama staf kurikulum adalah memastikan kedua kelas paralel mendapatkan alokasi jam belajar lengkap, tanpa ada bentrokan guru pengampu yang mengajar bersamaan dan tanpa perebutan ruang Lab IPA.
+
+## Langkah Penyusunan Jadwal Terpadu 6 Tahap
+
+Berikut adalah alur penyusunan jadwal lengkap dari persiapan hingga pencapaian status hijau:
+
+<StepList>
+<StepItem step="1" title="Konfigurasi Jam Belajar Sekolah dan Jam Istirahat">
+Buka menu Pengaturan. Masukkan nama sekolah SMP Negeri 1 Nusantara. Atur hari belajar aktif dari Senin sampai Jumat, dengan jam belajar harian pukul 07:00 hingga 14:30, khusus hari Jumat selesai pukul 11:30. Tetapkan waktu istirahat pagi pukul 09:30 - 10:00 dan istirahat siang pukul 12:00 - 12:45.
+</StepItem>
+<StepItem step="2" title="Pengisian Data Master dan Batasan Kehadiran Guru">
+Masuk ke tab Data Master. Daftarkan Kelas VII-A dan Kelas VII-B. Daftarkan mata pelajaran Matematika, IPA, dan Bahasa Indonesia. Daftarkan ruangan Lab IPA dengan kategori Laboratorium. Pada tab Guru, daftarkan Budi Santoso, S.Pd. dan Siti Aminah, M.Pd. Tambahkan interval waktu tidak bersedia (*unavailable*) untuk Siti Aminah, M.Pd. pada hari Jumat pukul 07:00 - 11:30.
+</StepItem>
+<StepItem step="3" title="Penyusunan Kebutuhan Pembelajaran Mingguan">
+Pada sub-tab Kebutuhan Pembelajaran, tentukan target tatap muka untuk kedua rombel. Untuk Kelas VII-A dan VII-B, tetapkan Matematika (Budi Santoso, S.Pd.) sebanyak 4 sesi per minggu durasi 40 menit, dan IPA (Siti Aminah, M.Pd.) sebanyak 4 sesi per minggu durasi 40 menit dengan mencentang sakelar Wajib Ruangan Khusus ke Lab IPA.
+</StepItem>
+<StepItem step="4" title="Penyusunan Jadwal Kelas VII-A hingga Tuntas">
+Pindah ke tab Editor Jadwal dan pilih Kelas VII-A sebagai kelas aktif. Tempatkan seluruh kartu sesi dari panel kiri ke kanvas grid waktu: tempatkan Matematika di hari Senin dan Rabu pagi, serta IPA di hari Selasa dan Kamis di ruang Lab IPA. Kuota sesi Kelas VII-A kini terpenuhi 100%.
+</StepItem>
+<StepItem step="5" title="Menduplikasi Jadwal Menggunakan Fitur Salin Jadwal">
+Gunakan tombol **Salin Jadwal** pada toolbar untuk menduplikasi susunan jadwal dari Kelas VII-A ke Kelas VII-B guna mempercepat pekerjaan. Karena guru pengajar Matematika (Budi Santoso, S.Pd.) dan guru IPA (Siti Aminah, M.Pd.) mengampu kedua kelas tersebut, penyalinan jam yang sama secara langsung memunculkan bentrokan waktu guru **TEACHER_OVERLAP** dan bentrokan ruangan **ROOM_OVERLAP**.
+</StepItem>
+<StepItem step="6" title="Penyelesaian Bentrokan Waktu dan Penataan Ulang">
+Pilih Kelas VII-B di pemilih kelas. Ambil sesi Matematika yang bentrok lalu geser ke hari Selasa dan Kamis. Untuk sesi praktikum IPA Kelas VII-B, klik tombol **Lepas dari Grid** untuk mengeluarkan sesi dari jam yang bertabrakan dengan Kelas VII-A, kemudian tempatkan kembali ke hari Senin dan Rabu siang saat Lab IPA sedang kosong.
+</StepItem>
+</StepList>
+
+## Pencapaian Status Jadwal Lengkap dan Valid
+
+Setelah seluruh sesi disesuaikan, kedua rombel belajar tidak lagi berebut guru maupun fasilitas laboratorium:
+
+<ValidationStatusBadgesReplica initialStatus="COMPLETE_AND_VALID" />
+
+Lencana status validasi di toolbar editor kini menyala hijau dengan indikator **Jadwal lengkap dan valid**. Seluruh kelas di sekolah telah 100% lengkap dan 0 bentrokan waktu.
+
+<Callout variant="tip" title="Jadwal Siap Didistribusikan">
+Dengan tercapainya status **Jadwal lengkap dan valid**, Anda dapat membuka menu Ekspor Dokumen untuk mengunduh dokumen cetak PDF bagi siswa Kelas VII-A dan Kelas VII-B serta lembar rekap beban mengajar Excel untuk Bapak Budi Santoso, S.Pd. dan Ibu Siti Aminah, M.Pd.
+</Callout>

@@ -1,0 +1,38 @@
+---
+title: "Memahami 4 Status Validasi Jadwal"
+description: "Arti lencana Konflik ditemukan, Belum lengkap, Tidak ada konflik pada data saat ini, dan Jadwal lengkap dan valid."
+order: "4.1"
+---
+
+## Filosofi Validasi Dua Tingkat
+
+Sistem validasi Schedovyn beroperasi dengan prinsip evaluasi dua tingkat: **Tingkat Kelas Aktif** dan **Tingkat Seluruh Ruang Kerja Sekolah**.
+
+Pemisahan ini sangat penting bagi staf kurikulum. Anda perlu mengetahui apakah kelas yang sedang dibuka di kanvas sudah bebas dari kesalahan, sekaligus mengetahui apakah masih ada kelas-kelas lain di sekolah yang belum rampung atau masih memiliki bentrokan jadwal guru lintas rombel.
+
+## Empat Status Validasi Resmi Schedovyn
+
+Schedovyn mendefinisikan empat status validasi resmi yang ditampilkan pada bilah toolbar editor:
+
+<ValidationStatusBadgesReplica />
+
+Berikut adalah rincian arti dan kondisi pemicu masing-masing status:
+
+1. **`CONFLICT_DETECTED` (Konflik ditemukan):**
+   - *Arti:* Terdeteksi minimal satu bentrokan waktu fisik berkategori Error pada ruang kerja sekolah (misalnya jadwal kelas tumpang-tindih, guru mengajar ganda, atau sesi menabrak jam istirahat).
+   - *Tindakan:* Prioritas utama operator adalah memindahkan sesi yang bentrok atau melepasnya dari grid kanvas.
+2. **`INCOMPLETE` (Belum lengkap):**
+   - *Arti:* Seluruh sesi yang sudah ditempatkan bebas dari bentrokan waktu, namun alokasi target tatap muka mingguan kelas aktif belum terpenuhi (masih ada kartu di panel belum terjadwal).
+   - *Tindakan:* Tempatkan kartu sesi yang tersisa hingga kuota tatap muka mingguan mencapai 100%.
+3. **`NO_CONFLICT_CURRENT_DATA` (Tidak ada konflik pada data saat ini):**
+   - *Arti:* Kelas aktif yang sedang dibuka di kanvas sudah lengkap 100% dan bebas dari bentrokan. Namun, masih ada rombongan belajar lain di sekolah yang alokasinya belum tuntas atau memiliki bentrokan aktif.
+   - *Tindakan:* Beralih ke kelas lain untuk melanjutkan proses penataan jadwal sekolah secara bertahap.
+4. **`COMPLETE_AND_VALID` (Jadwal lengkap dan valid):**
+   - *Arti:* Seluruh kelas di sekolah tanpa terkecuali telah 100% dialokasikan dan tidak ada satu pun bentrokan waktu guru maupun ruangan yang tersisa.
+   - *Tindakan:* Jadwal resmi telah sempurna dan siap dicetak atau diekspor ke PDF dan Excel.
+
+## Menuju Status Lengkap dan Valid
+
+<Callout variant="info" title="Target Akhir Staf Kurikulum">
+Status hijau **Jadwal lengkap dan valid** adalah indikator mutlak bahwa jadwal pembelajaran sekolah Anda telah memenuhi seluruh kriteria kurikulum akademik dan siap didistribusikan kepada seluruh dewan guru dan siswa tanpa risiko bentrokan di hari pertama masuk sekolah.
+</Callout>

@@ -1,0 +1,31 @@
+---
+title: "Cara Kerja Penyimpanan Otomatis Lokal (Auto-Save)"
+description: "Memahami status Menyimpan..., Tersimpan di browser, dan Gagal menyimpan lokal beserta pemeriksaan kuota penyimpanan peramban."
+order: "6.1"
+---
+
+## Arsitektur Penyimpanan Database IndexedDB
+
+Schedovyn beroperasi dengan prinsip *Local-First*. Artinya, peramban web komputer Anda bertindak sebagai pusat database tunggal berkecepatan tinggi menggunakan teknologi **IndexedDB** (`schedovyn_local_db`).
+
+Setiap kali Anda menempatkan sesi baru, menggeser jam belajar, atau memperbarui nama guru di data master, sistem langsung menulis transaksi tersebut secara lokal tanpa perlu menunggu respon server eksternal. Hal ini membuat aplikasi terasa instan, bebas jeda koneksi, dan sepenuhnya aman dari risiko kebocoran data pribadi sekolah ke pihak ketiga.
+
+## Memahami 3 Status Simpan Otomatis
+
+Pada sudut kiri atas bilah navigasi aplikasi, terdapat lencana status penyimpanan yang memperbarui kondisinya secara langsung:
+
+<SaveStatusBadgeReplica />
+
+Berikut adalah arti ketiga status penyimpanan tersebut:
+
+1. **`Tersimpan di browser`:** Menandakan seluruh mutasi data jadwal telah berhasil diverifikasi dan tersimpan dengan aman pada penyimpanan lokal peramban Anda.
+2. **`Menyimpan...`:** Muncul sesaat selama beberapa milidetik saat operasi penulisan transaksi database sedang berlangsung di latar belakang.
+3. **`Gagal menyimpan lokal`:** Menandakan peramban mengalami kendala penulisan database lokal (misalnya kuota media penyimpanan hard disk penuh atau peramban dijalankan pada mode penyamaran pribadi yang membatasi akses penyimpanan permanen).
+
+## Praktik Keamanan Data dan Penanganan Kendala
+
+Karena seluruh data jadwal tersimpan di dalam database peramban lokal komputer Anda, ikuti panduan keselamatan data berikut:
+
+<Callout variant="danger" title="Peringatan Pembersihan Riwayat Peramban (Clear Site Data)">
+Jika Anda menghapus riwayat peramban (*Clear Browsing Data / Clear Cookies & Site Data*) pada peramban web Anda, database lokal IndexedDB Schedovyn juga akan ikut terhapus. Selalu pastikan Anda telah mengekspor jadwal Anda ke dalam format PDF atau buku kerja Excel sebelum melakukan pembersihan komputer. Jika sewaktu-waktu muncul pesan **Gagal menyimpan lokal**, segera periksa sisa ruang hard disk komputer Anda atau nonaktifkan mode penyamaran (*incognito*).
+</Callout>

@@ -1,0 +1,30 @@
+---
+title: "Panduan Ekspor Excel (.xlsx) & Analisis Beban Guru"
+description: "Penjelasan isi 4 lembar kerja (Jadwal, Rekap Guru, Rekap Ruangan, Konflik) serta perlindungan keamanan sanitasi formula spreadsheet."
+order: "5.2"
+---
+
+## Keuntungan Ekspor Format Spreadsheet (.xlsx)
+
+Selain format cetak PDF, Schedovyn menyediakan fitur ekspor ke buku kerja Microsoft Excel (`.xlsx`). Fitur ini sangat berguna bagi tim kurikulum dan urusan kepegawaian sekolah untuk mengolah data lebih lanjut, melakukan verifikasi beban jam kerja mengajar guru, serta membuat laporan analitis ke dinas pendidikan.
+
+Buku kerja yang diunduh berformat data bersih, menggunakan tipografi yang rapi, dan langsung dapat diedit kembali menggunakan Microsoft Excel, Google Sheets, maupun LibreOffice Calc.
+
+## Struktur Isi 4 Lembar Kerja Excel
+
+File Excel yang diekspor terbagi ke dalam empat lembar kerja (*worksheets*) yang saling melengkapi:
+
+| Nama Lembar Kerja | Isi dan Fungsi Utama | Manfaat bagi Pihak Sekolah |
+| :--- | :--- | :--- |
+| `Jadwal` | Matriks jadwal komprehensif seluruh rombel sekolah per hari dan jam | Arsip master jadwal induk sekolah |
+| `Rekap Guru` | Rekapitulasi total menit, jam tatap muka mingguan, dan sebaran kelas per guru | Dasar verifikasi pemenuhan beban 24 jam mengajar (SKMT/Sertifikasi) |
+| `Rekap Ruangan` | Matriks pemanfaatan fasilitas laboratorium, aula, dan lapangan per hari | Menghindari rebutan pemakaian fasilitas khusus sekolah |
+| `Konflik` | Daftar rekapitulasi bentrokan waktu atau peringatan yang belum terselesaikan | Daftar tugas perbaikan sebelum tahun ajaran baru dimulai |
+
+## Fitur Keamanan Sanitasi Formula Spreadsheet
+
+Keamanan integritas data merupakan prioritas penting dalam arsitektur Schedovyn:
+
+<Callout variant="info" title="Perlindungan Formula Injection Otomatis">
+Jika ada data nama guru, mata pelajaran, atau catatan sesi yang secara tidak sengaja atau sengaja diawali dengan karakter khusus seperti tanda sama dengan (`=`), tambah (`+`), minus (`-`), atau at (`@`), generator Excel Schedovyn akan menyematkan tanda kutip tunggal secara otomatis. Langkah sanitasi ini melindungi komputer staf tata usaha dari ancaman injeksi kode makro (*formula injection attack*) saat file spreadsheet dibuka.
+</Callout>

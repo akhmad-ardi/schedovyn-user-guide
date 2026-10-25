@@ -1,0 +1,40 @@
+---
+title: "Mengenal Tata Letak Aplikasi"
+description: "Penjelasan fungsi Header Bar, indikator status penyimpanan lokal, Class Selector Bar, dan 3 panel utama pada kanvas editor jadwal."
+order: "1.3"
+---
+
+## Anatomi Antarmuka Utama
+
+Antarmuka kerja Schedovyn dirancang dengan struktur tata letak tiga kolom yang ergonomis dan padat informasi, membantu operator sekolah mengelola ratusan jam pertemuan mingguan tanpa kehilangan kendali visual.
+
+Halaman utama aplikasi terbagi menjadi tiga zona fungsional: **Header Bar Atas**, **Class Selector Bar**, dan **Kanvas Editor Jadwal**.
+
+## Bilah Header dan Status Penyimpanan
+
+Pada bagian paling atas layar, Header Bar menyediakan akses cepat ke seluruh navigasi global sistem dan indikator kesehatan ruang kerja:
+
+1. **Identitas Aplikasi dan Ruang Kerja:** Menampilkan logo resmi Schedovyn beserta nama sekolah dan periode semester yang sedang disunting.
+2. **Navigasi Tab Utama:** Tautan instan untuk berpindah antara `Editor Jadwal`, `Data Master`, dan `Pengaturan`.
+3. **Lencana Status Penyimpanan Otomatis:** Indikator visual real-time yang memantau penulisan transaksi database lokal di peramban. Dalam kondisi normal, lencana ini selalu bertuliskan **Tersimpan di browser**.
+4. **Tombol Pasang Aplikasi dan Ganti Tema:** Memungkinkan pemasangan aplikasi sebagai PWA mandiri serta pergantian tema tampilan Terang atau Gelap.
+
+<SaveStatusBadgeReplica />
+
+<Callout variant="info" title="Penyimpanan Otomatis Berkelanjutan">
+Status **Tersimpan di browser** mengonfirmasi bahwa setiap mutasi sesi jadwal langsung tersimpan ke database IndexedDB lokal komputer Anda dalam hitungan milidetik setelah interaksi selesai.
+</Callout>
+
+## Bilah Pemilih Kelas dan Kanvas Editor
+
+Di bawah bilah header, terdapat **Class Selector Bar** yang memuat:
+
+- **Pemilih Rombongan Belajar:** Menu tarik-turun (*dropdown*) untuk memilih kelas aktif yang sedang disunting.
+- **Indikator Kuota Sesi:** Menampilkan angka rasio tatap muka mingguan, misalnya `Terjadwal: 24 / 32 sesi (Sisa 8 sesi)`.
+- **Lencana Ringkasan Validasi:** Tombol interaktif yang menampilkan status validasi sekolah dan membuka dialog matriks kelengkapan seluruh kelas.
+
+Adapun kanvas editor di bawahnya terbagi ke dalam tiga panel kerja:
+
+- **Panel Kiri (Sesi Belum Terjadwal):** Memuat daftar kartu mata pelajaran yang belum dialokasikan ke jadwal mingguan, lengkap dengan fitur pencarian dan filter mata pelajaran.
+- **Panel Tengah (Grid Waktu Mingguan):** Kanvas waktu kolom hari (Senin sampai Jumat atau Sabtu) yang memuat blok sesi pembelajaran, garis penanda istirahat, dan indikator bentrokan waktu.
+- **Panel Kanan (Panel Detail Sesi):** Formulir inspeksi sesi aktif untuk mengubah jam mulai, mengganti guru pengajar pengganti, menetapkan ruangan kelas, atau menekan tombol aksi.

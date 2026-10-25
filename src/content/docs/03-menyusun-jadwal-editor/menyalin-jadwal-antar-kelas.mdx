@@ -1,0 +1,48 @@
+---
+title: "Menyalin Jadwal ke Kelas Lain"
+description: "Panduan fitur Salin Jadwal untuk menduplikasi susunan jadwal ke kelas paralel beserta pilihan mode penanganan dan strategi guru."
+order: "3.5"
+---
+
+## Alasan Menggunakan Fitur Salin Jadwal
+
+Di banyak sekolah, rombongan belajar paralel pada tingkatan yang sama (misalnya Kelas VII-A, Kelas VII-B, dan Kelas VII-C) sering kali memiliki struktur mata pelajaran mingguan yang identik. Menyusun jadwal setiap kelas paralel dari nol satu per satu memakan waktu berjam-jam dan rentan menimbulkan kesalahan ketik.
+
+Fitur **Salin Jadwal** memungkinkan staf kurikulum menduplikasi seluruh matriks jadwal dari satu kelas sumber ke satu atau beberapa kelas tujuan dalam hitungan detik.
+
+## Mode Penanganan dan Strategi Penugasan Guru
+
+Saat membuka dialog Salin Jadwal dari bilah toolbar editor, Anda dapat menentukan konfigurasi duplikasi yang sangat fleksibel:
+
+### Mode Penanganan Jadwal Lama
+1. **Timpa Seluruh Jadwal Lama:** Menghapus seluruh sesi yang sudah ada di kelas tujuan, lalu menempelkan susunan sesi yang disalin dari kelas sumber.
+2. **Gabungkan (Merge):** Mempertahankan sesi lama yang tidak bentrok dan menambahkan sesi-sesi salinan baru ke slot jam yang masih lowong.
+
+### Strategi Penugasan Guru dan Ruangan
+Untuk mencegah bentrokan guru atau ruangan yang dipakai bersamaan, Schedovyn menyediakan 3 pilihan strategi:
+
+| Strategi Penugasan | Perilaku pada Kelas Tujuan | Rekomendasi Penggunaan |
+| :--- | :--- | :--- |
+| `Gunakan Default Tujuan` | Mengisi guru dan ruangan sesuai data kebutuhan pembelajaran kelas tujuan | Paling aman untuk guru berbeda pada rombel paralel |
+| `Salin dari Sumber` | Menduplikasi nama guru dan ruangan persis seperti kelas sumber | Cocok bila rombel diajar guru yang sama di hari berbeda |
+| `Kosongkan` | Mengosongkan penetapan guru dan ruangan pada sesi salinan | Cocok jika guru pengampu belum ditentukan |
+
+## Panduan Langkah Menyalin Jadwal Paralel
+
+Ikuti langkah praktis berikut untuk menduplikasi jadwal kelas Anda:
+
+<StepList>
+<StepItem step="1" title="Buka Dialog Salin Jadwal">
+Pastikan Anda berada di kelas sumber yang jadwalnya sudah tersusun rapi. Klik tombol **Salin Jadwal** pada toolbar editor di samping pemilih kelas.
+</StepItem>
+<StepItem step="2" title="Tentukan Kelas Tujuan dan Strategi">
+Pilih rombel target penerima salinan (misalnya Kelas VII-B). Tentukan mode penanganan (Timpa atau Gabungkan) serta strategi guru yang sesuai.
+</StepItem>
+<StepItem step="3" title="Terapkan Salinan dan Periksa Bentrokan">
+Tekan tombol konfirmasi Salin Jadwal. Sistem akan langsung menempelkan jadwal baru ke kelas tujuan dan melakukan validasi bentrokan secara instan.
+</StepItem>
+</StepList>
+
+<Callout variant="warning" title="Peringatan Bentrokan Guru dan Fasilitas Bersama">
+Jika kelas sumber dan kelas tujuan diajar oleh guru yang sama (misalnya guru Matematika mengajar di VII-A dan VII-B) atau menggunakan fasilitas yang sama (misalnya Lab IPA), tindakan menyalin jadwal dengan jam yang sama akan menimbulkan kesalahan bentrokan `TEACHER_OVERLAP` atau `ROOM_OVERLAP`. Anda cukup menggeser salah satu sesi ke hari atau jam lain untuk menyelesaikan bentrokan tersebut.
+</Callout>
