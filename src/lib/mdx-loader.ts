@@ -8,6 +8,11 @@ import remarkGfm from "remark-gfm";
 import type { DocArticleMeta } from "./docs-registry";
 import { Callout } from "@/components/docs/Callout";
 import { StepItem, StepList } from "@/components/docs/StepList";
+import { ValidationStatusBadgesReplica } from "@/components/replicas/ValidationStatusBadgesReplica";
+import { ConflictDictionaryExplorer } from "@/components/replicas/ConflictDictionaryExplorer";
+import { SaveStatusBadgeReplica } from "@/components/replicas/SaveStatusBadgeReplica";
+import { SessionBlockOverlapReplica } from "@/components/replicas/SessionBlockOverlapReplica";
+import { KeyboardShortcutSwitch } from "@/components/replicas/KeyboardShortcutSwitch";
 
 export interface TocHeadingItem {
   readonly id: string;
@@ -97,7 +102,31 @@ function extractTextFromChildren(children: ReactNode): string {
   return "";
 }
 
+function getReplicaTagForArticle(articleSlug: string): string {
+  switch (articleSlug) {
+    case "empat-status-validasi":
+    case "mengenal-schedovyn":
+    case "studi-kasus-smp-nusantara":
+      return "\n<ValidationStatusBadgesReplica />\n";
+    case "kamus-tujuh-konflik-waktu":
+      return '\n<ConflictDictionaryExplorer initialFilter="ERROR" />\n';
+    case "kamus-lima-peringatan-kelengkapan":
+      return '\n<ConflictDictionaryExplorer initialFilter="WARNING" />\n';
+    case "penyimpanan-otomatis-indexeddb":
+    case "tata-letak-aplikasi":
+      return "\n<SaveStatusBadgeReplica />\n";
+    case "menyunting-dan-memindahkan-sesi":
+      return "\n<SessionBlockOverlapReplica />\n";
+    case "daftar-pintasan-keyboard":
+      return "\n<KeyboardShortcutSwitch />\n";
+    default:
+      return "";
+  }
+}
+
 function buildFallbackMdx(meta: DocArticleMeta): string {
+  const replicaSnippet = getReplicaTagForArticle(meta.articleSlug);
+
   return [
     "## Ringkasan Panduan",
     "",
@@ -106,7 +135,7 @@ function buildFallbackMdx(meta: DocArticleMeta): string {
     `<Callout variant="info" title="Modul ${meta.moduleNumber}: ${meta.moduleTitle}">`,
     `Panduan bab ${meta.order} (${meta.title}) disusun untuk membantu Staf Kurikulum dan Operator Sekolah mengelola jadwal pelajaran secara terstruktur di aplikasi Schedovyn.`,
     "</Callout>",
-    "",
+    replicaSnippet,
     "## Langkah Operasional Utama",
     "",
     "<StepList>",
@@ -311,6 +340,11 @@ const mdxComponents = {
   Callout,
   StepList,
   StepItem,
+  ValidationStatusBadgesReplica,
+  ConflictDictionaryExplorer,
+  SaveStatusBadgeReplica,
+  SessionBlockOverlapReplica,
+  KeyboardShortcutSwitch,
 };
 
 export async function compileDocArticle(

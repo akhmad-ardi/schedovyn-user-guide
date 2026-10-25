@@ -43,38 +43,38 @@ const ROLE_SCENARIOS: readonly RoleScenarioItem[] = [
 export default function HomePage(): React.ReactElement {
   return (
     <HomePortalFrame>
-      <div className="mx-auto max-w-[1440px] px-4 py-10 sm:px-6 sm:py-12 flex flex-col gap-12">
+      <div className="mx-auto max-w-360 px-4 py-10 sm:px-6 sm:py-12 flex flex-col gap-12">
         {/* Bagian 2: Jalur Baca Berdasarkan Peran & Skenario */}
         <section aria-labelledby="heading-skenario">
           <div className="mb-4 flex flex-col gap-1">
             <h2
               id="heading-skenario"
-              className="font-heading text-lg font-bold tracking-tight text-[var(--foreground)] sm:text-xl"
+              className="font-heading text-lg font-bold tracking-tight text-foreground sm:text-xl"
             >
               Jalur Baca Berdasarkan Kebutuhan Operasional
             </h2>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Pilih skenario kerja yang sesuai dengan tugas penjadwalan Anda
               hari ini.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 border border-[var(--border)] lg:grid-cols-3">
+          <div className="grid grid-cols-1 border border-border lg:grid-cols-3">
             {ROLE_SCENARIOS.map((item) => (
               <div
                 key={item.number}
-                className="flex flex-col justify-between gap-4 border-b border-[var(--border)] bg-[var(--background)] p-5 last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
+                className="flex flex-col justify-between gap-4 border-b border-border bg-background p-5 last:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0"
               >
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2.5">
-                    <span className="inline-flex h-6 w-7 items-center justify-center rounded-none border border-[var(--primary)] bg-[var(--surface-subtle)] font-mono text-xs font-bold tabular-nums text-[var(--primary)]">
+                    <span className="inline-flex h-6 w-7 items-center justify-center rounded-none border border-primary bg-surface-subtle font-mono text-xs font-bold tabular-nums text-primary">
                       {item.number}
                     </span>
-                    <h3 className="font-heading text-sm font-semibold text-[var(--foreground)]">
+                    <h3 className="font-heading text-sm font-semibold text-foreground">
                       {item.roleTitle}
                     </h3>
                   </div>
-                  <p className="text-xs leading-5 text-[var(--muted-foreground)]">
+                  <p className="text-xs leading-5 text-muted-foreground">
                     {item.scenarioDescription}
                   </p>
                 </div>
@@ -82,7 +82,7 @@ export default function HomePage(): React.ReactElement {
                 <div>
                   <Link
                     href={item.primaryHref}
-                    className="inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-[var(--primary)] hover:underline"
+                    className="inline-flex items-center gap-1.5 font-heading text-xs font-semibold text-primary hover:underline"
                   >
                     <span>{item.primaryLabel}</span>
                     <ArrowRight className="size-3.5 shrink-0" aria-hidden="true" />
@@ -98,11 +98,11 @@ export default function HomePage(): React.ReactElement {
           <div className="mb-4 flex flex-col gap-1">
             <h2
               id="heading-modul"
-              className="font-heading text-lg font-bold tracking-tight text-[var(--foreground)] sm:text-xl"
+              className="font-heading text-lg font-bold tracking-tight text-foreground sm:text-xl"
             >
               Peta 6 Modul Dokumentasi Schedovyn
             </h2>
-            <p className="text-sm text-[var(--muted-foreground)]">
+            <p className="text-sm text-muted-foreground">
               Seluruh bab disusun mengikuti urutan kerja penyusunan jadwal di
               aplikasi Schedovyn.
             </p>
@@ -112,30 +112,30 @@ export default function HomePage(): React.ReactElement {
             {DOCS_MODULES.map((moduleGroup) => (
               <div
                 key={moduleGroup.moduleSlug}
-                className="flex flex-col justify-between border border-[var(--border)] bg-[var(--background)] p-5"
+                className="flex flex-col justify-between border border-border bg-background p-5"
               >
                 <div>
                   <div className="mb-2.5 flex items-center gap-2.5">
-                    <span className="inline-flex h-6 w-8 items-center justify-center rounded-none border border-[var(--primary)] bg-[var(--surface-subtle)] font-mono text-xs font-bold tabular-nums text-[var(--primary)]">
+                    <span className="inline-flex h-6 w-8 items-center justify-center rounded-none border border-primary bg-surface-subtle font-mono text-xs font-bold tabular-nums text-primary">
                       {moduleGroup.moduleNumber}
                     </span>
-                    <h3 className="font-heading text-base font-bold text-[var(--foreground)]">
+                    <h3 className="font-heading text-base font-bold text-foreground">
                       {moduleGroup.title}
                     </h3>
                   </div>
 
-                  <p className="mb-4 text-xs leading-5 text-[var(--muted-foreground)]">
+                  <p className="mb-4 text-xs leading-5 text-muted-foreground">
                     {moduleGroup.description}
                   </p>
 
-                  <ul className="flex flex-col border-t border-[var(--border)] pt-3 space-y-1.5">
+                  <ul className="flex flex-col border-t border-border pt-3 space-y-1.5">
                     {moduleGroup.articles.map((article) => (
                       <li key={article.href}>
                         <Link
                           href={article.href}
-                          className="group flex items-start gap-2 py-0.5 text-xs text-[var(--foreground)] hover:text-[var(--primary)]"
+                          className="group flex items-start gap-2 py-0.5 text-xs text-foreground hover:text-primary"
                         >
-                          <span className="shrink-0 font-mono text-[11px] font-semibold tabular-nums text-[var(--muted-foreground)] group-hover:text-[var(--primary)]">
+                          <span className="shrink-0 font-mono text-[11px] font-semibold tabular-nums text-muted-foreground group-hover:text-primary">
                             {article.order}
                           </span>
                           <span className="font-medium leading-5">
@@ -154,20 +154,20 @@ export default function HomePage(): React.ReactElement {
         {/* Bagian 4: Banner Studi Kasus Terpadu (FR-UG-05) */}
         <section
           aria-labelledby="heading-studi-kasus"
-          className="border border-[var(--primary)] bg-[var(--surface-subtle)] p-6"
+          className="border border-primary bg-surface-subtle p-6"
         >
           <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
             <div className="max-w-3xl">
-              <div className="mb-1.5 font-mono text-xs font-bold uppercase tracking-wide text-[var(--primary)] tabular-nums">
+              <div className="mb-1.5 font-mono text-xs font-bold uppercase tracking-wide text-primary tabular-nums">
                 TUTORIAL TERPADU BAB 6.4 (STUDI KASUS NYATA)
               </div>
               <h2
                 id="heading-studi-kasus"
-                className="font-heading text-lg font-bold text-[var(--foreground)] sm:text-xl"
+                className="font-heading text-lg font-bold text-foreground sm:text-xl"
               >
                 Studi Kasus: Menyusun Jadwal SMP Negeri 1 Nusantara dari Nol
               </h2>
-              <p className="mt-1.5 text-xs sm:text-sm leading-6 text-[var(--muted-foreground)]">
+              <p className="mt-1.5 text-xs sm:text-sm leading-6 text-muted-foreground">
                 Praktikkan penyusunan jadwal untuk 2 kelas paralel (Kelas VII-A
                 dan Kelas VII-B), pengaturan guru yang tidak hadir di hari Jumat
                 pagi, pemakaian bergantian ruang Lab IPA, penyalinan jadwal
@@ -179,7 +179,7 @@ export default function HomePage(): React.ReactElement {
             <div className="flex shrink-0 flex-wrap items-center gap-3">
               <Link
                 href="/docs/06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara"
-                className="inline-flex h-9 items-center justify-center gap-2 rounded-none border border-[var(--primary)] bg-[var(--primary)] px-4 font-heading text-xs font-semibold text-[var(--primary-foreground)] hover:opacity-90"
+                className="inline-flex h-9 items-center justify-center gap-2 rounded-none border border-primary bg-primary px-4 font-heading text-xs font-semibold text-primary-foreground hover:opacity-90"
               >
                 <span>Pelajari Studi Kasus SMP Nusantara</span>
                 <ArrowRight className="size-3.5 shrink-0" aria-hidden="true" />
@@ -187,7 +187,7 @@ export default function HomePage(): React.ReactElement {
 
               <a
                 href={PUBLIC_ENV.APP_URL}
-                className="inline-flex h-9 items-center justify-center gap-1.5 rounded-none border border-[var(--border)] bg-[var(--background)] px-4 font-heading text-xs font-semibold text-[var(--foreground)] hover:border-[var(--primary)]"
+                className="inline-flex h-9 items-center justify-center gap-1.5 rounded-none border border-border bg-background px-4 font-heading text-xs font-semibold text-foreground hover:border-primary"
               >
                 <span>Buka Aplikasi Schedovyn</span>
                 <ArrowUpRight className="size-3.5 shrink-0" aria-hidden="true" />

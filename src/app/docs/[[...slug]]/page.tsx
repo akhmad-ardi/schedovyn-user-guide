@@ -66,8 +66,8 @@ export default async function DocCatchAllPage({
         data-docs-article
         className="flex-1 min-w-0 max-w-3xl mx-auto"
       >
-        <div className="mb-6 border-b border-[var(--border)] pb-5">
-          <div className="mb-2 flex items-center gap-2 font-mono text-xs font-semibold tabular-nums text-[var(--primary)]">
+        <div className="mb-6 border-b border-border pb-5">
+          <div className="mb-2 flex items-center gap-2 font-mono text-xs font-semibold tabular-nums text-primary">
             <span>Modul {articleMeta.moduleNumber}</span>
             <span>/</span>
             <span>{articleMeta.moduleTitle}</span>
@@ -75,11 +75,11 @@ export default async function DocCatchAllPage({
             <span>Bab {articleMeta.order}</span>
           </div>
 
-          <h1 className="font-heading text-2xl font-bold tracking-tight leading-tight text-[var(--foreground)] sm:text-3xl">
+          <h1 className="font-heading text-2xl font-bold tracking-tight leading-tight text-foreground sm:text-3xl">
             {articleMeta.title}
           </h1>
 
-          <p className="mt-2.5 text-base leading-7 text-[var(--muted-foreground)]">
+          <p className="mt-2.5 text-base leading-7 text-muted-foreground">
             {articleMeta.description}
           </p>
         </div>
