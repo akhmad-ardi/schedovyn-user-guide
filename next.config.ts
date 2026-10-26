@@ -14,10 +14,7 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  output: "export",
-  images: {
-    unoptimized: true,
-  },
+  output: "standalone",
 };
 
 export default nextConfig;
