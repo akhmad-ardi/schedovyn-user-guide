@@ -13,6 +13,7 @@ import { ConflictDictionaryExplorer } from "@/components/replicas/ConflictDictio
 import { SaveStatusBadgeReplica } from "@/components/replicas/SaveStatusBadgeReplica";
 import { SessionBlockOverlapReplica } from "@/components/replicas/SessionBlockOverlapReplica";
 import { KeyboardShortcutSwitch } from "@/components/replicas/KeyboardShortcutSwitch";
+import { WorkspaceSwitcherReplica } from "@/components/replicas/WorkspaceSwitcherReplica";
 
 export interface TocHeadingItem {
   readonly id: string;
@@ -119,6 +120,8 @@ function getReplicaTagForArticle(articleSlug: string): string {
       return "\n<SessionBlockOverlapReplica />\n";
     case "daftar-pintasan-keyboard":
       return "\n<KeyboardShortcutSwitch />\n";
+    case "kelola-multi-ruang-kerja":
+      return "\n<WorkspaceSwitcherReplica />\n";
     default:
       return "";
   }
@@ -223,32 +226,57 @@ const mdxComponents = {
       {
         ...props,
         className:
-          "my-3 list-disc pl-6 space-y-1.5 text-base leading-7 text-[var(--foreground)]",
+          "my-4 list-disc space-y-1.5 pl-6 text-base leading-7 text-[var(--foreground)]",
       },
       children
     ),
   ol: ({
     children,
     ...props
-  }: React.HTMLAttributes<HTMLOListElement>): React.ReactElement =>
+  }: React.OlHTMLAttributes<HTMLOListElement>): React.ReactElement =>
     React.createElement(
       "ol",
       {
         ...props,
         className:
-          "my-3 list-decimal pl-6 space-y-1.5 text-base leading-7 text-[var(--foreground)] tabular-nums",
+          "my-4 list-decimal space-y-2 pl-6 text-base leading-7 tabular-nums text-[var(--foreground)]",
       },
       children
     ),
   li: ({
     children,
     ...props
-  }: React.HTMLAttributes<HTMLLIElement>): React.ReactElement =>
+  }: React.LiHTMLAttributes<HTMLLIElement>): React.ReactElement =>
+    React.createElement("li", { ...props, className: "pl-1" }, children),
+  blockquote: ({
+    children,
+    ...props
+  }: React.BlockquoteHTMLAttributes<HTMLQuoteElement>): React.ReactElement =>
     React.createElement(
-      "li",
+      "blockquote",
       {
         ...props,
-        className: "leading-7",
+        className:
+          "my-5 border-l-2 border-[var(--primary)] pl-4 italic text-[var(--muted-foreground)]",
+      },
+      children
+    ),
+  hr: (
+    props: React.HTMLAttributes<HTMLHRElement>
+  ): React.ReactElement =>
+    React.createElement("hr", {
+      ...props,
+      className: "my-8 border-[var(--border)]",
+    }),
+  strong: ({
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLElement>): React.ReactElement =>
+    React.createElement(
+      "strong",
+      {
+        ...props,
+        className: "font-semibold text-[var(--foreground)]",
       },
       children
     ),
@@ -345,6 +373,7 @@ const mdxComponents = {
   SaveStatusBadgeReplica,
   SessionBlockOverlapReplica,
   KeyboardShortcutSwitch,
+  WorkspaceSwitcherReplica,
 };
 
 export async function compileDocArticle(

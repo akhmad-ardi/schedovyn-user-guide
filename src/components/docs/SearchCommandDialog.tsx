@@ -24,10 +24,11 @@ export interface SearchCommandDialogProps {
   readonly sections?: readonly SearchableDocSection[];
 }
 
-const POPULAR_KEYWORDS: readonly string[] = [
+export const POPULAR_KEYWORDS: readonly string[] = [
   "istirahat",
   "konflik guru",
   "salin jadwal",
+  "duplikasi ruang kerja",
   "excel",
   "undo",
 ];
@@ -187,8 +188,9 @@ export function SearchCommandDialog({
               <p className="text-xs leading-5 text-[var(--muted-foreground)]">
                 Coba gunakan kata kunci seperti &apos;istirahat&apos;,
                 &apos;konflik guru&apos;, &apos;salin jadwal&apos;,
-                &apos;excel&apos;, atau &apos;undo&apos;, atau buka referensi
-                lengkap pada halaman Kamus Konflik.
+                &apos;duplikasi ruang kerja&apos;, &apos;excel&apos;, atau
+                &apos;undo&apos;, atau buka referensi lengkap pada halaman Kamus
+                Konflik.
               </p>
               <div className="pt-1">
                 <Link

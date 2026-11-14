@@ -127,6 +127,15 @@ export const DOCS_MODULES: readonly DocModuleGroup[] = [
         "Menyusun Kebutuhan Pembelajaran Mingguan",
         "Menentukan alokasi mata pelajaran per kelas, guru pengajar default, target sesi per minggu, durasi sesi, dan kewajiban ruangan khusus."
       ),
+      createArticle(
+        "02",
+        "02-ruang-kerja-dan-data-master",
+        "Persiapan Ruang Kerja & Data Master",
+        "2.4",
+        "kelola-multi-ruang-kerja",
+        "Mengelola Multi-Ruang Kerja & Duplikasi Semester",
+        "Cara membuat ruang kerja baru, menduplikasi data master untuk semester baru atau simulasi jadwal, berpindah ruang kerja aktif, dan memahami aturan isolasi data lokal."
+      ),
     ],
   },
   {

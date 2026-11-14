@@ -11,10 +11,11 @@ import {
 import { SaveStatusBadgeReplica } from "@/components/replicas/SaveStatusBadgeReplica";
 import { SessionBlockOverlapReplica } from "@/components/replicas/SessionBlockOverlapReplica";
 import { KeyboardShortcutSwitch } from "@/components/replicas/KeyboardShortcutSwitch";
+import { WorkspaceSwitcherReplica } from "@/components/replicas/WorkspaceSwitcherReplica";
 import { compileDocArticle } from "@/lib/mdx-loader";
 import { getDocArticleBySlug } from "@/lib/docs-registry";
 
-describe("TASK-03: Implementasi 5 Komponen Replika UI Interaktif Schedovyn & Integrasi MDX", () => {
+describe("TASK-03 & TASK-05: Implementasi Komponen Replika UI Interaktif Schedovyn & Integrasi MDX", () => {
   describe("1. ValidationStatusBadgesReplica (FR-UG-03, AC-UG-04, AC-UG-05)", () => {
     it("mendaftarkan 4 status validasi resmi yang bebas dari karakter em dash", () => {
       expect(VALIDATION_STATUS_ITEMS).toHaveLength(4);
@@ -274,7 +275,105 @@ describe("TASK-03: Implementasi 5 Komponen Replika UI Interaktif Schedovyn & Int
     });
   });
 
-  describe("6. Integrasi MDX Komponen Replika (compileDocArticle)", () => {
+  describe("6. WorkspaceSwitcherReplica (FR-UG-03, AC-UG-05, AC-UG-07)", () => {
+    it("merender peraga switcher ruang kerja, merespons klik pergantian ruang kerja, dan menampilkan indikator isolasi data serta reset riwayat", () => {
+      const { container } = render(
+        <WorkspaceSwitcherReplica initialWorkspaceId="ws-ganjil" />
+      );
+
+      // Bingkai peraga teknis Schedovyn
+      expect(
+        screen.getByText(/PERAGA INTERAKTIF ANTARMUKA SCHEDOVYN/i)
+      ).toBeInTheDocument();
+
+      // Default ruang kerja Semester Ganjil
+      expect(
+        screen.getByText("Semester Ganjil 2026/2027")
+      ).toBeInTheDocument();
+      expect(screen.getByText("Jadwal lengkap dan valid")).toBeInTheDocument();
+
+      // Klik beralih ke ruang kerja Semester Genap
+      const genapButton = screen.getByRole("button", {
+        name: /Semester Genap 2026\/2027/i,
+      });
+      fireEvent.click(genapButton);
+
+      expect(screen.getByText("Belum lengkap")).toBeInTheDocument();
+      expect(
+        screen.getByText(/schedovyn_active_workspace_id/i)
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(/0 langkah \(Direset saat berpindah ruang kerja\)/i)
+      ).toBeInTheDocument();
+
+      // Verifikasi bebas em dash
+      expect(container.textContent).not.toContain("\u2014");
+    });
+
+    it("menyediakan sakelar mode inisialisasi ruang kerja baru (BLANK vs SEED_DEFAULT)", () => {
+      render(<WorkspaceSwitcherReplica initialInitMode="BLANK" />);
+
+      expect(screen.getByText("BLANK")).toBeInTheDocument();
+      expect(
+        screen.getByText(/Ruang Kerja Kosong/i)
+      ).toBeInTheDocument();
+
+      // Beralih ke Muat Data Contoh
+      const seedButton = screen.getByRole("button", {
+        name: /Muat Data Contoh/i,
+      });
+      fireEvent.click(seedButton);
+
+      expect(screen.getByText("SEED_DEFAULT")).toBeInTheDocument();
+      expect(
+        screen.getByText(/SMP Negeri 1 Nusantara/i)
+      ).toBeInTheDocument();
+    });
+
+    it("menyediakan sakelar mode duplikasi ruang kerja (MASTER_DATA_ONLY vs FULL_COPY)", () => {
+      render(
+        <WorkspaceSwitcherReplica initialDuplicateMode="MASTER_DATA_ONLY" />
+      );
+
+      expect(screen.getByText("MASTER_DATA_ONLY")).toBeInTheDocument();
+      expect(
+        screen.getByText(/Konfigurasi & Data Master Saja/i)
+      ).toBeInTheDocument();
+
+      // Beralih ke Salin Penuh Beserta Jadwal
+      const fullCopyButton = screen.getByRole("button", {
+        name: /Salin Penuh Beserta Jadwal/i,
+      });
+      fireEvent.click(fullCopyButton);
+
+      expect(screen.getByText("FULL_COPY")).toBeInTheDocument();
+      expect(
+        screen.getByText(/Salin Penuh Beserta Jadwal/i)
+      ).toBeInTheDocument();
+    });
+
+    it("memperagakan proteksi tombol Hapus Ruang Kerja saat hanya tersisa 1 ruang kerja aktif", () => {
+      render(<WorkspaceSwitcherReplica />);
+
+      const deleteButton = screen.getByRole("button", {
+        name: /Hapus Ruang Kerja/i,
+      });
+      expect(deleteButton).not.toBeDisabled();
+
+      // Beralih ke simulasi hanya tersisa 1 ruang kerja
+      const singleWsSimButton = screen.getByRole("button", {
+        name: /Simulasi: 1 Ruang Kerja Tersisa/i,
+      });
+      fireEvent.click(singleWsSimButton);
+
+      expect(deleteButton).toBeDisabled();
+      expect(
+        screen.getByText(/Sistem wajib mempertahankan minimal satu ruang kerja aktif/i)
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe("7. Integrasi MDX Komponen Replika (compileDocArticle)", () => {
     it("berhasil mengompilasi artikel panduan 4.1 dan 4.2 yang memuat replika status dan replika kamus konflik", async () => {
       const meta41 = getDocArticleBySlug([
         "04-kamus-konflik-dan-validasi",

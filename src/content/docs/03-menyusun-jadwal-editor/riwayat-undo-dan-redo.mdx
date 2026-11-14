@@ -28,5 +28,5 @@ Anda dapat menavigasi riwayat perubahan melalui bilah alat editor maupun kombina
 Sistem riwayat perubahan Schedovyn beroperasi pada konteks manipulasi sesi kanvas editor:
 
 <Callout variant="tip" title="Cakupan Tindakan yang Dicatat">
-Tindakan yang dicatat dalam riwayat mencakup penempatan sesi baru ke grid, pergeseran jam atau hari sesi, perubahan guru/ruangan sesi di Panel Detail, serta pelepasan sesi kembali ke panel belum terjadwal. Namun, mutasi konfigurasi master pada tab Data Master (seperti penghapusan rombel kelas atau perubahan jam sekolah) bersifat langsung dan tidak terikat pada tumpukan tombol **Batal Perubahan** di editor jadwal.
+Tindakan yang dicatat dalam riwayat mencakup penempatan sesi baru ke grid, pergeseran jam atau hari sesi, perubahan guru/ruangan sesi di Panel Detail, serta pelepasan sesi kembali ke panel belum terjadwal. Namun, mutasi konfigurasi master pada tab Data Master (seperti penghapusan rombel kelas atau perubahan jam sekolah) bersifat langsung dan tidak terikat pada tumpukan tombol **Batal Perubahan** di editor jadwal. Selain itu, tumpukan riwayat Undo dan Redo bersifat spesifik untuk ruang kerja yang sedang aktif. Saat Anda berpindah ke ruang kerja lain melalui Workspace Switcher, riwayat perubahan akan otomatis direset menjadi 0 langkah guna mencegah mutasi jadwal diterapkan ke ruang kerja yang keliru.
 </Callout>

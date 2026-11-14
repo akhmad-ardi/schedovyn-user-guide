@@ -4,8 +4,9 @@
 |---|---|
 | **Nama Proyek** | Schedovyn User Guide (Portal Panduan Pemakaian & Dokumentasi Resmi) |
 | **Produk Induk** | Schedovyn (*Smart Timetable Planner*) |
-| **Versi Dokumen** | 1.1.0 |
+| **Versi Dokumen** | 1.2.0 |
 | **Status** | Siap Untuk Perancangan & Eksekusi Proyek Mandiri |
+| **Dokumen Acuan Induk** | [Schedovyn-PRD.md](./Schedovyn-PRD.md) (v1.1.0), [Schedovyn-TDD.md](./Schedovyn-TDD.md) (v1.1.0) |
 | **Framework Utama** | **Next.js** (App Router, React Server Components, MDX Content & Static Pre-rendering) |
 | **Target Audiens** | Staf Kurikulum, Operator Sekolah, Wakil Kepala Sekolah Bidang Kurikulum, dan Guru Penyusun Jadwal |
 | **Bahasa Antarmuka** | Bahasa Indonesia (Bebas karakter *em dash*) |
@@ -16,16 +17,16 @@
 ## 1. Ringkasan Eksekutif & Tujuan Produk
 
 ### 1.1 Latar Belakang
-Meskipun antarmuka **Schedovyn** telah dirancang agar intuitif tanpa dokumentasi rumit, penyusunan jadwal sekolah secara inheren melibatkan banyak aturan bisnis akademik: pengaturan jam belajar per hari yang berbeda (seperti hari Jumat), pembatasan jam hadir guru (*unavailable intervals*), pengelolaan ruang praktik khusus, pembedaan antara **Konflik Waktu** dan **Peringatan Kelengkapan**, hingga strategi penyalinan jadwal antar-kelas paralel.
+Meskipun antarmuka **Schedovyn** telah dirancang agar intuitif tanpa dokumentasi rumit, penyusunan jadwal sekolah secara inheren melibatkan banyak aturan bisnis akademik: pengaturan jam belajar per hari yang berbeda (seperti hari Jumat), pembatasan jam hadir guru (*unavailable intervals*), pengelolaan ruang praktik khusus, pembedaan antara **Konflik Waktu** dan **Peringatan Kelengkapan**, strategi penyalinan jadwal antar-kelas paralel, hingga pengelolaan **Multi-Ruang Kerja (*Multi-Workspace*)** untuk memisahkan jadwal antar-semester (misalnya Semester Ganjil vs Semester Genap) atau membuat skenario simulasi jadwal terisolasi di peramban.
 
 Pengguna di sekolah membutuhkan sebuah **Portal Panduan Pemakaian (User Guide)** yang terstruktur, mudah dicari, dilengkapi contoh studi kasus sekolah nyata, serta dapat dibaca dengan nyaman sambil membuka editor jadwal.
 
 ### 1.2 Tujuan Proyek User Guide
 Membangun aplikasi web **Portal Panduan Pemakaian Schedovyn** mandiri berbasis **Next.js** yang bertujuan untuk:
 1. Memandu pengguna baru menyusun jadwal sekolah pertama mereka dalam waktu **kurang dari 15 menit** (*Quick Start Guide*).
-2. Menyediakan referensi lengkap langkah-demi-langkah untuk seluruh fitur aplikasi (`FR-01` s.d. `FR-12` dan `PWA-01`) menggunakan istilah antarmuka yang 100% akurat sesuai kode aplikasi produksi.
+2. Menyediakan referensi lengkap langkah-demi-langkah untuk seluruh fitur aplikasi (`FR-01` s.d. `FR-13` dan `PWA-01`) menggunakan istilah antarmuka yang 100% akurat sesuai kode aplikasi produksi.
 3. Menyediakan **Kamus Konflik & Cara Penyelesaiannya** agar pengguna memahami arti setiap lencana merah/kuning dan langkah tepat untuk memperbaikinya.
-4. Menyediakan fitur **Pencarian Instan Client-Side (`Ctrl+K` / `/`)** sehingga pengguna dapat langsung menemukan jawaban atas kendala spesifik (misal: *"cara mengatur jam istirahat hari Jumat"* atau *"mengatasi penyimpanan browser penuh"*).
+4. Menyediakan fitur **Pencarian Instan Client-Side (`Ctrl+K` / `/`)** sehingga pengguna dapat langsung menemukan jawaban atas kendala spesifik (misal: *"cara mengatur jam istirahat hari Jumat"*, *"duplikasi ruang kerja semester baru"*, atau *"mengatasi penyimpanan browser penuh"*).
 
 ---
 
@@ -37,6 +38,8 @@ Membangun aplikasi web **Portal Panduan Pemakaian Schedovyn** mandiri berbasis *
    - Menemukan peringatan seperti `Bentrokan Jadwal Guru` atau status `Tidak ada konflik pada data saat ini`, lalu membuka **Kamus Validasi & Konflik** untuk memahami artinya dan cara menyelesaikannya.
 3. **Staf Administrasi / Operator Saat Cetak Laporan:**
    - Membaca panduan **Ekspor PDF & Excel** untuk memahami perbedaan cakupan *Kelas Aktif* vs *Seluruh Ruang Kerja* serta cara mengolah lembar kerja `Rekap Guru` di Microsoft Excel / Google Sheets.
+4. **Wakil Kepala Sekolah / Staf Kurikulum Saat Pergantian Semester & Simulasi Jadwal:**
+   - Membaca panduan **Mengelola Multi-Ruang Kerja & Duplikasi Semester** untuk menduplikasi ruang kerja semester berjalan dengan mode *Konfigurasi & Data Master Saja* (`MASTER_DATA_ONLY`) guna menyusun jadwal semester baru tanpa menginput ulang data guru/kelas, atau menggunakan mode *Salin Penuh Beserta Jadwal* (`FULL_COPY`) untuk eksperimen simulasi jadwal terisolasi.
 
 ---
 
@@ -48,7 +51,7 @@ Proyek Portal Panduan Pemakaian ini **wajib dibangun menggunakan Next.js (App Ro
 | Layer / Kebutuhan | Teknologi / Pustaka | Catatan Implementasi |
 |---|---|---|
 | **Package Manager & Runtime** | **Bun** (`^1.4.0`) | Wajib gunakan `bun` (`bun install`, `bun run dev`, `bun run build`) |
-| **Core Web Framework** | **Next.js** (`^16.4.3`) | Menggunakan **App Router** (`src/app/`), mendukung Static Export (`output: "export"`) atau SSG penuh |
+| **Core Web Framework** | **Next.js** (`^16.4.3`) | Menggunakan **App Router** (`src/app/`), mendukung Static Export (`output: "export"`) atau SSG penuh (`output: "standalone"`) |
 | **UI Library** | **React 19** | *Server Components* untuk artikel MDX & *Client Components* (`"use client"`) untuk widget interaktif |
 | **Language** | **TypeScript** (`~5.8+` / `~6.0+`) | `strict` mode aktif, *Zero `any` policy* |
 | **Content / Docs Engine** | **MDX** (`@next/mdx` / `next-mdx-remote` atau **Fumadocs**) | Penulisan artikel panduan berbasis MDX yang memungkinkan penyematan komponen React interaktif di dalam artikel |
@@ -74,7 +77,7 @@ schedovyn-user-guide/
 │   │       └── [[...slug]]/
 │   │           └── page.tsx             # Dynamic route SSG (generateStaticParams) pemuat artikel MDX
 │   ├── content/
-│   │   └── docs/                        # Berkas dokumentasi MDX terstruktur dalam 6 Modul
+│   │   └── docs/                        # Berkas dokumentasi MDX terstruktur dalam 6 Modul (22 Artikel)
 │   │       ├── 01-pengenalan/
 │   │       │   ├── mengenal-schedovyn.mdx
 │   │       │   ├── mulai-cepat-10-menit.mdx
@@ -82,7 +85,8 @@ schedovyn-user-guide/
 │   │       ├── 02-ruang-kerja-dan-data-master/
 │   │       │   ├── pengaturan-jam-belajar.mdx
 │   │       │   ├── kelola-kelas-mapel-guru-ruangan.mdx
-│   │       │   └── kebutuhan-pembelajaran-mingguan.mdx
+│   │       │   ├── kebutuhan-pembelajaran-mingguan.mdx
+│   │       │   └── kelola-multi-ruang-kerja.mdx
 │   │       ├── 03-menyusun-jadwal-editor/
 │   │       │   ├── memilih-kelas-aktif.mdx
 │   │       │   ├── menempatkan-sesi-belum-terjadwal.mdx
@@ -116,7 +120,8 @@ schedovyn-user-guide/
 │   │   │   ├── ConflictDictionaryExplorer.tsx
 │   │   │   ├── SaveStatusBadgeReplica.tsx
 │   │   │   ├── SessionBlockOverlapReplica.tsx
-│   │   │   └── KeyboardShortcutSwitch.tsx
+│   │   │   ├── KeyboardShortcutSwitch.tsx
+│   │   │   └── WorkspaceSwitcherReplica.tsx
 │   │   └── ui/                          # Komponen primitif shadcn/ui radix-lyra
 │   └── lib/
 │       ├── docs-registry.ts             # Peta navigasi 6 modul, metadata artikel, & urutan halaman
@@ -134,7 +139,7 @@ schedovyn-user-guide/
 
 ## 4. Arsitektur Informasi & Peta Konten Panduan (Sitemap)
 
-Portal Panduan Pemakaian wajib mengorganisasikan dokumentasi ke dalam **6 Modul Utama** yang mencerminkan alur kerja nyata di dalam aplikasi Schedovyn:
+Portal Panduan Pemakaian wajib mengorganisasikan dokumentasi ke dalam **6 Modul Utama** (mencakup **22 artikel MDX**) yang mencerminkan alur kerja nyata di dalam aplikasi Schedovyn:
 
 ```mermaid
 flowchart TD
@@ -149,24 +154,38 @@ flowchart TD
 
 ### Modul 1: Pengenalan & Mulai Cepat (*Getting Started*)
 1. **1.1 Mengenal Schedovyn & Prinsip Kerja:**
-   - Konsep *Class-Oriented Editing, Workspace-Wide Validation* (menyunting satu kelas aktif, namun deteksi konflik selalu memeriksa seluruh kelas di sekolah).
+   - Konsep *Class-Oriented Editing, Workspace-Wide Validation* (menyunting satu kelas aktif pada satu waktu, namun mesin deteksi konflik selalu memeriksa seluruh sesi di dalam **Ruang Kerja Aktif** yang sedang dibuka).
+   - Dukungan banyak ruang kerja lokal (*multi-workspace*) yang terisolasi penuh untuk memisahkan jadwal antar-semester atau simulasi.
    - Keunggulan *100% Local-First & Zero-Login*.
 2. **1.2 Panduan Mulai Cepat 10 Menit (*Quick Start*):**
    - Ringkasan alur 5 langkah dari ruang kerja awal (*seed default*: `SMP Negeri 1 Nusantara`) hingga berhasil mengunduh PDF jadwal pertama.
 3. **1.3 Mengenal Tata Letak Aplikasi:**
-   - Penjelasan fungsi *Header Bar* (`SaveStatusBadge`, Navigasi Utama, Tombol Pasang Aplikasi PWA, Toggle Tema), *Class Selector Bar*, dan 3 Panel Editor Jadwal.
+   - Penjelasan fungsi *Header Bar* (**Pemilih Ruang Kerja Aktif / *Workspace Switcher***, `SaveStatusBadge`, Navigasi Utama, Tombol Pasang Aplikasi PWA, Toggle Tema), *Class Selector Bar*, dan 3 Panel Editor Jadwal.
 
-### Modul 2: Persiapan Ruang Kerja & Data Master (`FR-01` & `FR-02`)
+### Modul 2: Persiapan Ruang Kerja & Data Master (`FR-01`, `FR-02`, & `FR-13`)
 1. **2.1 Mengatur Identitas Sekolah & Jam Belajar (`/settings`):**
-   - Mengubah Nama Ruang Kerja, Periode Akademik, dan Interval Snap Default (`15`, `30`, `45`, atau `60` menit) beserta opsi terapkan ke seluruh hari.
+   - Mengubah Nama Ruang Kerja, Periode Akademik, dan Interval Snap Default (`5`, `10`, `15`, `30`, atau `60` menit) beserta opsi terapkan ke seluruh hari.
    - Mengaktifkan/menonaktifkan hari sekolah (Senin s.d. Minggu), mengatur Jam Mulai & Jam Selesai per hari (contoh: Jumat `07:00 - 11:30`), serta menambah/menghapus periode Waktu Istirahat.
 2. **2.2 Mengelola Kelas, Guru, Mata Pelajaran, dan Ruangan (`/master-data`):**
    - **Tab Kelas:** Menambah rombongan belajar (Nama Kelas & Tingkat). Penjelasan dampak penghapusan kelas secara kaskade (*cascade delete*).
-   - **Tab Mata Pelajaran:** Memilih 1 dari 10 warna pembeda visual (`blue`, `emerald`, `violet`, `cyan`, `indigo`, `teal`, `fuchsia`, `pink`, `slate`, `orange`).
+   - **Tab Mata Pelajaran:** Memilih 1 dari 10 warna pembeda visual (`blue`, `emerald`, `amber`, `rose`, `violet`, `cyan`, `orange`, `teal`, `indigo`, `slate`).
    - **Tab Guru & Waktu Tidak Bersedia:** Cara mendaftarkan guru dan menambahkan interval waktu ketika guru tidak bisa mengajar (misal: guru paruh waktu yang tidak hadir setiap hari Selasa pukul `07:00 - 12:00`).
-   - **Tab Ruangan & Ketersediaan:** Membedakan tipe ruangan (`Ruang Kelas`, `Laboratorium`, `Lapangan / Olahraga`, `Ruang Serbaguna`) dan mengatur jadwal ketika ruangan sedang dipakai kegiatan lain.
+   - **Tab Ruangan & Ketersediaan:** Membedakan tipe ruangan (`Ruang Kelas`, `Laboratorium`, `Lapangan / Olahraga`, `Aula / Serbaguna`, `Lainnya`) dan mengatur jadwal ketika ruangan sedang dipakai kegiatan lain.
 3. **2.3 Menyusun Kebutuhan Pembelajaran Mingguan (*Teaching Requirements*):**
    - Cara menentukan alokasi mata pelajaran untuk setiap kelas: memilih Kelas, Mata Pelajaran, Guru Pengajar Default, Ruangan Default, Target Sesi per Minggu (`sessionsPerWeek`), Durasi per Sesi (`durationMinutes`), dan sakelar **Wajib Ruangan Khusus** (`roomRequired`).
+4. **2.4 Mengelola Multi-Ruang Kerja & Duplikasi Semester (`FR-13` & `AC-14`):**
+   - **Pemilih Ruang Kerja Aktif (*Workspace Switcher*):** Cara melihat ruang kerja yang sedang aktif di header aplikasi dan berpindah ke ruang kerja lain yang tersimpan di browser tanpa kehilangan data ruang kerja sebelumnya, serta mekanisme pemulihan otomatis ruang kerja aktif terakhir (`schedovyn_active_workspace_id`).
+   - **Membuat Ruang Kerja Baru:** Menentukan nama sekolah/ruang kerja, periode akademik, interval snap default, dan memilih mode inisialisasi:
+     - **Ruang Kerja Kosong (`BLANK`):** Memiliki konfigurasi hari default (Senin s.d. Jumat aktif, Sabtu s.d. Minggu libur) tanpa data master dan tanpa sesi.
+     - **Muat Data Contoh (`SEED_DEFAULT`):** Mengisi ruang kerja baru dengan data contoh `SMP Negeri 1 Nusantara` menggunakan identitas entitas unik yang terisolasi sehingga tidak menimpa ruang kerja lain.
+   - **Menduplikasi Ruang Kerja (*Clone Workspace*):** Cara menduplikasi ruang kerja yang sudah ada untuk pergantian semester atau simulasi dengan dua pilihan mode:
+     - **Konfigurasi & Data Master Saja (`MASTER_DATA_ONLY`):** Menyalin konfigurasi jam belajar, kelas, guru, mata pelajaran, ruangan, dan kebutuhan pembelajaran mingguan dengan identitas baru yang terpetakan secara konsisten, sementara jadwal sesi dikosongkan (`sessions = []`) agar siap disusun ulang untuk semester baru.
+     - **Salin Penuh Beserta Jadwal (`FULL_COPY`):** Menyalin seluruh konfigurasi, data master, kebutuhan pembelajaran, beserta penempatan sesi jadwal untuk keperluan simulasi perubahan jadwal atau pencadangan lokal.
+   - **Isolasi Data, Validasi, Riwayat Undo/Redo, & Penghapusan Ruang Kerja:**
+     - Perhitungan *Smart Conflict Detection* (`FR-05`) dan validasi kelengkapan (`FR-11`) selalu terisolasi di dalam batas ruang kerja yang sedang aktif.
+     - Saat berpindah ruang kerja, tumpukan riwayat *Undo/Redo* (`FR-07`) direset secara otomatis agar aksi pembatalan tidak memengaruhi ruang kerja lain.
+     - Operasi pengosongan data atau pemuatan ulang data contoh pada ruang kerja aktif tidak menghapus atau mengubah ruang kerja lain.
+     - Aturan penghapusan ruang kerja secara atomik yang mewajibkan sistem mempertahankan minimal satu ruang kerja aktif (tombol hapus dinonaktifkan apabila hanya tersisa satu ruang kerja).
 
 ### Modul 3: Menyusun Jadwal di Kanvas Editor (`FR-03`, `FR-04`, `FR-06`, `FR-07`, `FR-12`)
 1. **3.1 Memilih & Berpindah Kelas Aktif:**
@@ -180,6 +199,7 @@ flowchart TD
    - Memahami tampilan blok sesi yang berdampingan (*overlap cluster*) apabila terjadi dua sesi di jam yang sama pada kelas yang sama.
 4. **3.4 Menggunakan Riwayat Perubahan (*Undo & Redo*):**
    - Membatalkan hingga 50 langkah terakhir menggunakan tombol **Batal Perubahan** (`Ctrl+Z` / `Cmd+Z`) dan **Ulangi Perubahan** (`Ctrl+Y` / `Ctrl+Shift+Z`).
+   - Penjelasan bahwa tumpukan riwayat *Undo/Redo* berlaku spesifik untuk ruang kerja yang sedang aktif dan otomatis direset saat pengguna berpindah ke ruang kerja lain.
 5. **3.5 Menyalin Jadwal ke Kelas Lain (*Schedule Copy*):**
    - Panduan lengkap menggunakan tombol **Salin Jadwal** pada toolbar untuk menduplikasi jadwal kelas paralel.
    - Penjelasan opsi **Mode Penanganan** (*Timpa Seluruh Jadwal Lama* vs *Gabungkan*) serta **Strategi Guru & Ruangan** (*Gunakan Default Kelas Tujuan*, *Salin dari Kelas Sumber*, atau *Kosongkan*).
@@ -189,8 +209,8 @@ flowchart TD
    Penjelasan mendalam beserta contoh kasus untuk keempat status resmi Schedovyn:
    - **Konflik ditemukan (`CONFLICT_DETECTED`):** Terdapat minimal satu bentrokan waktu nyata.
    - **Belum lengkap (`INCOMPLETE`):** Tidak ada bentrokan waktu, tetapi masih ada sesi wajib yang belum ditempatkan ke grid atau ada peringatan kelengkapan.
-   - **Tidak ada konflik pada data saat ini (`NO_CONFLICT_CURRENT_DATA`):** Kelas yang sedang dibuka sudah 100% lengkap dan bebas konflik, namun kelas lain di sekolah masih belum selesai disusun.
-   - **Jadwal lengkap dan valid (`COMPLETE_AND_VALID`):** Seluruh kelas di sekolah telah terjadwal lengkap dan 0 konflik di seluruh ruang kerja.
+   - **Tidak ada konflik pada data saat ini (`NO_CONFLICT_CURRENT_DATA`):** Kelas yang sedang dibuka sudah 100% lengkap dan bebas konflik, namun kelas lain di dalam ruang kerja aktif masih belum selesai disusun.
+   - **Jadwal lengkap dan valid (`COMPLETE_AND_VALID`):** Seluruh kelas di dalam ruang kerja aktif telah terjadwal lengkap dan 0 konflik di seluruh ruang kerja.
 2. **4.2 Kamus 7 Jenis Bentrokan Waktu (Tingkat Keparahan: Error / Merah):**
    Tabel referensi lengkap berisi arti dan langkah perbaikan untuk:
    - `CLASS_OVERLAP` (*Jadwal Kelas Tumpang Tindih*)
@@ -216,10 +236,11 @@ flowchart TD
    - Penjelasan struktur 4 lembar kerja (*worksheet*): `Jadwal`, `Rekap Guru` (cara melihat total menit dan jam mengajar mingguan per guru), `Rekap Ruangan`, dan `Konflik`.
    - Penjelasan fitur keamanan sanitasi formula otomatis pada sel teks.
 
-### Modul 6: Penyimpanan Lokal, Mode Offline (PWA), & Pintasan Keyboard (`FR-10` & `PWA-01`)
+### Modul 6: Penyimpanan Lokal, Mode Offline (PWA), & Pintasan Keyboard (`FR-10`, `FR-13`, & `PWA-01`)
 1. **6.1 Cara Kerja Penyimpanan Otomatis Lokal (*Auto-Save*):**
    - Arti 3 indikator penyimpanan (`Menyimpan...`, `Tersimpan di browser`, dan `Gagal menyimpan lokal`).
    - Cara mengeklik lencana `"Tersimpan di browser"` untuk melihat jam simpan terakhir (`HH:mm:ss`) dan estimasi kuota penyimpanan peramban.
+   - Cara penyimpanan lokal IndexedDB (`schedovyn_local_db`) mengisolasi data antar-ruang kerja berdasarkan `workspaceId` dan memulihkan ruang kerja aktif terakhir (`schedovyn_active_workspace_id`).
    - Hal yang harus dihindari agar data tidak hilang (jangan menghapus *Site Data / IndexedDB* peramban tanpa mengekspor jadwal terlebih dahulu) serta cara mengatasi galat `Ruang Penyimpanan Browser Penuh` atau `Akses Penyimpanan Dibatasi` (mode penyamaran).
 2. **6.2 Memasang Aplikasi ke Komputer & Bekerja Offline (PWA):**
    - Cara mengeklik tombol **"Pasang Aplikasi"** di header agar Schedovyn tampil sebagai aplikasi desktop mandiri dan cara memperbarui versi ketika muncul notifikasi **"Pembaruan Aplikasi Tersedia"**.
@@ -231,6 +252,8 @@ flowchart TD
    - `Delete` / `Backspace`: Lepas sesi yang dipilih kembali ke panel belum terjadwal.
    - `Enter`: Buka fokus ke formulir Panel Detail Sesi.
    - `D`: Ganti tema tampilan (Terang / Gelap).
+4. **6.4 Studi Kasus Terpadu ("Menyusun Jadwal SMP Nusantara dari Nol"):**
+   - Panduan praktik menyeluruh dari konfigurasi awal, penyusunan 2 kelas paralel, penyalinan jadwal, perbaikan konflik lintas kelas, hingga duplikasi ruang kerja untuk persiapan semester berikutnya.
 
 ---
 
@@ -238,7 +261,7 @@ flowchart TD
 
 ### FR-UG-01: Tata Letak Dokumentasi 3 Kolom (`src/app/docs/layout.tsx`)
 - **Sidebar Kiri (`DocsSidebar.tsx`):**
-  - Menampilkan daftar hierarkis 6 Modul beserta sub-halamannya.
+  - Menampilkan daftar hierarkis 6 Modul beserta 22 sub-halamannya.
   - Menyorot halaman yang sedang aktif dibaca (`usePathname()`) dan dapat dilipat (*collapsible drawer*) pada layar *mobile/tablet*.
 - **Area Konten Utama (Tengah):**
   - Lebar baca optimal (`max-w-3xl`), mendukung komponen MDX kustom: `<StepList>`, `<Callout>`, tabel referensi, dan replika komponen UI.
@@ -248,11 +271,11 @@ flowchart TD
 
 ### FR-UG-02: Pencarian Instan Client-Side (`SearchCommandDialog.tsx` - `Ctrl+K` / `/`)
 - Pengguna dapat menekan `Ctrl+K` (atau mengeklik bilah pencarian di header) untuk membuka dialog pencarian cepat.
-- Pencarian bekerja 100% di sisi klien (*client-side index*) yang mencari kecocokan kata kunci pada judul artikel, sub-judul, kode/nama konflik, dan isi langkah panduan.
+- Pencarian bekerja 100% di sisi klien (*client-side index*) yang mencari kecocokan kata kunci pada judul artikel, sub-judul, kode/nama konflik, mode pengelolaan multi-ruang kerja (`workspace`, `duplikasi`, `semester baru`, `MASTER_DATA_ONLY`, `FULL_COPY`), dan isi langkah panduan.
 - Menampilkan hasil pencarian yang dikelompokkan berdasarkan modul beserta cuplikan kalimat yang relevan dan menavigasi halaman secara instan menggunakan `next/navigation`.
 
 ### FR-UG-03: Komponen Ilustrasi & Replika UI Kontekstual (`src/components/replicas/`)
-- Alih-alih hanya menampilkan teks panjang, setiap artikel panduan kunci wajib menyertakan **Replika Visual Komponen UI Schedovyn** (misalnya replika `SaveStatusBadgeReplica`, replika kartu sesi belum terjadwal, replika 4 lencana `ValidationStatusBadgesReplica`, dan contoh blok sesi yang bertabrakan) sehingga pengguna mengenali bentuk tombol dan warna persis seperti di aplikasi asli.
+- Alih-alih hanya menampilkan teks panjang, setiap artikel panduan kunci wajib menyertakan **Replika Visual Komponen UI Schedovyn** (termasuk `ValidationStatusBadgesReplica`, `ConflictDictionaryExplorer`, `SaveStatusBadgeReplica`, `SessionBlockOverlapReplica`, `KeyboardShortcutSwitch`, dan `WorkspaceSwitcherReplica`) sehingga pengguna mengenali bentuk tombol, pemilih ruang kerja, mode kloning ruang kerja, dan warna status persis seperti di aplikasi asli.
 
 ### FR-UG-04: Filter Cepat pada Kamus Konflik & Pintasan Keyboard
 - Pada halaman **Kamus Konflik & Peringatan**, tersedia komponen Client (`ConflictDictionaryExplorer.tsx`) yang memungkinkan pengguna memfilter daftar berdasarkan kategori (*Semua*, *Bentrokan Waktu / Error*, *Kelengkapan / Warning*) serta mencari nama konflik.
@@ -260,7 +283,7 @@ flowchart TD
 
 ### FR-UG-05: Studi Kasus Terpadu ("Menyusun Jadwal SMP Nusantara dari Nol")
 - Menyediakan satu halaman tutorial utuh berbasis skenario nyata:
-  - Menyusun jadwal untuk 2 kelas paralel (**Kelas VII-A** dan **Kelas VII-B**), 3 guru (termasuk 1 guru yang mengajar di kedua kelas dan tidak hadir di hari Jumat pagi), 1 ruang Lab IPA yang dipakai bergantian, cara menyalin jadwal dari VII-A ke VII-B, cara memperbaiki bentrokan guru yang muncul setelah penyalinan, hingga jadwal mencapai status hijau **Jadwal lengkap dan valid**.
+  - Menyusun jadwal untuk 2 kelas paralel (**Kelas VII-A** dan **Kelas VII-B**), 3 guru (termasuk 1 guru yang mengajar di kedua kelas dan tidak hadir di hari Jumat pagi), 1 ruang Lab IPA yang dipakai bergantian, cara menyalin jadwal dari VII-A ke VII-B, cara memperbaiki bentrokan guru yang muncul setelah penyalinan hingga jadwal mencapai status hijau **Jadwal lengkap dan valid**, serta langkah menduplikasi ruang kerja Semester Ganjil ke Semester Genap dengan mode **Konfigurasi & Data Master Saja (`MASTER_DATA_ONLY`)**.
 
 ---
 
@@ -268,7 +291,7 @@ flowchart TD
 
 1. **NFR-UG-01 (Konsistensi Desain `radix-lyra`):**
    - Menggunakan token warna, tipografi (`Figtree Variable` & `Inter Variable`), sudut tajam (`rounded-none`), angka `tabular-nums`, dan dukungan mode Terang/Gelap yang identik dengan aplikasi utama Schedovyn dan Landing Page.
-   - Bebas dari penggunaan karakter *em dash* (`—`) di seluruh artikel panduan.
+   - Bebas dari penggunaan karakter *em dash* di seluruh artikel panduan.
 2. **NFR-UG-02 (Static Pre-Rendering Next.js & Kecepatan Navigasi):**
    - Seluruh halaman dokumentasi (`/docs/...`) wajib di-*pre-render* secara statis pada waktu *build* (`generateStaticParams`) sehingga perpindahan antar-bab melalui `<Link>` Next.js berlangsung instan (`< 50 ms`).
 3. **NFR-UG-03 (Kemudahan Cetak Artikel Panduan / Print Stylesheet):**
@@ -279,8 +302,9 @@ flowchart TD
 ## 7. Acceptance Criteria (Kriteria Penerimaan Proyek)
 
 - **AC-UG-01:** Proyek Next.js berhasil dikompilasi menggunakan `bun run build` (`next build`) dengan seluruh rute dokumentasi ter-generate secara statis dan 0 error TypeScript.
-- **AC-UG-02:** Pengguna dapat menavigasi seluruh 6 Modul panduan melalui Sidebar kiri maupun tombol *Artikel Sebelumnya / Selanjutnya* di bagian bawah setiap halaman tanpa ada tautan yang rusak (*broken links*).
-- **AC-UG-03:** Menekan `Ctrl+K` atau mengeklik kolom pencarian membuka dialog pencarian instan; mengetik kata kunci seperti `"istirahat"`, `"konflik guru"`, `"excel"`, atau `"undo"` menampilkan daftar artikel yang relevan dan mengarahkan pengguna langsung ke bagian tersebut saat diklik.
+- **AC-UG-02:** Pengguna dapat menavigasi seluruh 6 Modul panduan (22 artikel) melalui Sidebar kiri maupun tombol *Artikel Sebelumnya / Selanjutnya* di bagian bawah setiap halaman tanpa ada tautan yang rusak (*broken links*).
+- **AC-UG-03:** Menekan `Ctrl+K` atau mengeklik kolom pencarian membuka dialog pencarian instan; mengetik kata kunci seperti `"istirahat"`, `"konflik guru"`, `"excel"`, `"undo"`, atau `"duplikasi ruang kerja"` menampilkan daftar artikel yang relevan dan mengarahkan pengguna langsung ke bagian tersebut saat diklik.
 - **AC-UG-04:** Halaman **Kamus Konflik & Ringkasan Validasi** mendokumentasikan secara akurat ke-4 status validasi, ke-7 jenis konflik waktu, dan ke-5 peringatan kelengkapan lengkap dengan replika lencana visual dan langkah perbaikannya.
-- **AC-UG-05:** Seluruh istilah tombol, nama tab, dan label status di dalam teks panduan 100% sesuai dengan teks Bahasa Indonesia pada aplikasi Schedovyn (contoh: `"Tersimpan di browser"`, `"Batal Perubahan"`, `"Tempatkan ke Jadwal"`, `"Salin Jadwal"`).
+- **AC-UG-05:** Seluruh istilah tombol, nama tab, mode ruang kerja, dan label status di dalam teks panduan 100% sesuai dengan teks Bahasa Indonesia pada aplikasi Schedovyn (contoh: `"Tersimpan di browser"`, `"Batal Perubahan"`, `"Tempatkan ke Jadwal"`, `"Salin Jadwal"`, `"Ruang Kerja Kosong"`, `"Muat Data Contoh"`, `"Konfigurasi & Data Master Saja"`, `"Salin Penuh Beserta Jadwal"`).
 - **AC-UG-06:** Terdapat tombol akses langsung **"Buka Aplikasi Schedovyn"** di bilah header Portal Panduan agar pengguna dapat langsung mempraktikkan panduan yang sedang dibaca.
+- **AC-UG-07:** Portal panduan mendokumentasikan secara lengkap fitur **Pengelolaan Multi-Ruang Kerja (`FR-13` & `AC-14`)** pada artikel `2.4` beserta komponen peraga interaktif `WorkspaceSwitcherReplica` yang menyimulasikan perpindahan ruang kerja aktif, mode pembuatan ruang kerja baru (`BLANK` vs `SEED_DEFAULT`), mode duplikasi ruang kerja (`MASTER_DATA_ONLY` vs `FULL_COPY`), reset otomatis riwayat *Undo/Redo* saat berpindah ruang kerja, serta proteksi penghapusan ruang kerja terakhir.

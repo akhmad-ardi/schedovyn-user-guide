@@ -26,7 +26,7 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-describe("TASK-02: MDX Heading Extractor, Tata Letak 3 Kolom, Navigasi 6 Modul & Komponen Dokumentasi", () => {
+describe("TASK-02 & TASK-05: MDX Heading Extractor, Tata Letak 3 Kolom, Navigasi 6 Modul & Komponen Dokumentasi", () => {
   beforeEach(() => {
     mockPathname.mockReturnValue("/docs/01-pengenalan/mengenal-schedovyn");
   });
@@ -145,7 +145,7 @@ describe("TASK-02: MDX Heading Extractor, Tata Letak 3 Kolom, Navigasi 6 Modul &
       }
 
       const allArticles = getAllDocArticles();
-      expect(allArticles).toHaveLength(21);
+      expect(allArticles).toHaveLength(22);
 
       for (const article of allArticles) {
         const links = screen.getAllByRole("link", {
@@ -202,14 +202,30 @@ describe("TASK-02: MDX Heading Extractor, Tata Letak 3 Kolom, Navigasi 6 Modul &
       );
     });
 
-    it("merender 'Artikel Sebelumnya' (2.3) dan 'Artikel Selanjutnya' (3.2) ketika berada di artikel tengah (3.1)", () => {
+    it("merender 'Artikel Sebelumnya' (2.3) dan 'Artikel Selanjutnya' (3.1) ketika berada di artikel 2.4", () => {
+      render(
+        <DocsPager currentHref="/docs/02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja" />
+      );
+
+      expect(screen.getByText(/Artikel Sebelumnya/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Menyusun Kebutuhan Pembelajaran Mingguan/i)
+      ).toBeInTheDocument();
+
+      expect(screen.getByText(/Artikel Selanjutnya/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Memilih & Berpindah Kelas Aktif/i)
+      ).toBeInTheDocument();
+    });
+
+    it("merender 'Artikel Sebelumnya' (2.4) dan 'Artikel Selanjutnya' (3.2) ketika berada di artikel tengah (3.1)", () => {
       render(
         <DocsPager currentHref="/docs/03-menyusun-jadwal-editor/memilih-kelas-aktif" />
       );
 
       expect(screen.getByText(/Artikel Sebelumnya/i)).toBeInTheDocument();
       expect(
-        screen.getByText(/Menyusun Kebutuhan Pembelajaran Mingguan/i)
+        screen.getByText(/Mengelola Multi-Ruang Kerja & Duplikasi Semester/i)
       ).toBeInTheDocument();
 
       expect(screen.getByText(/Artikel Selanjutnya/i)).toBeInTheDocument();

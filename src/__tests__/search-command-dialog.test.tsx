@@ -32,7 +32,7 @@ function SearchDialogHarness({
   );
 }
 
-describe("TASK-02: Pencarian Instan Client-Side SearchCommandDialog (FR-UG-02, AC-UG-03, R-27)", () => {
+describe("TASK-02 & TASK-05: Pencarian Instan Client-Side SearchCommandDialog (FR-UG-02, AC-UG-03, R-27)", () => {
   beforeEach(() => {
     mockPush.mockReset();
   });
@@ -93,6 +93,30 @@ describe("TASK-02: Pencarian Instan Client-Side SearchCommandDialog (FR-UG-02, A
     expect(
       screen.getByText(/Menggunakan Riwayat Perubahan \(Undo & Redo\)/i)
     ).toBeInTheDocument();
+  });
+
+  it("menampilkan artikel Mengelola Multi-Ruang Kerja & Duplikasi Semester ketika mencari kata kunci 'duplikasi ruang kerja' (AC-UG-03, FR-UG-02)", () => {
+    render(<SearchDialogHarness initialOpen={true} />);
+
+    const searchInput = screen.getByPlaceholderText(
+      /Cari panduan, topik, atau kode konflik/i
+    );
+    fireEvent.change(searchInput, {
+      target: { value: "duplikasi ruang kerja" },
+    });
+
+    expect(
+      screen.getByText(/Mengelola Multi-Ruang Kerja & Duplikasi Semester/i)
+    ).toBeInTheDocument();
+
+    const resultOption = screen.getByText(
+      /Mengelola Multi-Ruang Kerja & Duplikasi Semester/i
+    );
+    fireEvent.click(resultOption);
+
+    expect(mockPush).toHaveBeenCalledWith(
+      "/docs/02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja"
+    );
   });
 
   it("mengarahkan pengguna ke rute artikel (router.push) dan menutup dialog saat salah satu hasil pencarian diklik", () => {
