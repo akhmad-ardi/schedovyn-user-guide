@@ -22,6 +22,12 @@ Berikut adalah arti ketiga status penyimpanan tersebut:
 2. **`Menyimpan...`:** Muncul sesaat selama beberapa milidetik saat operasi penulisan transaksi database sedang berlangsung di latar belakang.
 3. **`Gagal menyimpan lokal`:** Menandakan peramban mengalami kendala penulisan database lokal (misalnya kuota media penyimpanan hard disk penuh atau peramban dijalankan pada mode penyamaran pribadi yang membatasi akses penyimpanan permanen).
 
+## Isolasi Multi-Ruang Kerja dan Kunci Ruang Kerja Aktif
+
+Di dalam database `schedovyn_local_db`, data setiap ruang kerja disimpan secara terisolasi menggunakan kunci `workspaceId`. Operasi mutasi sesi, pengaturan jam, dan data master ruang kerja satu tidak akan mempengaruhi ruang kerja lainnya. 
+
+Selain itu, peramban menyimpan ID ruang kerja aktif terakhir pada `localStorage` dengan kunci `schedovyn_active_workspace_id`, sehingga saat aplikasi dibuka kembali, Schedovyn secara otomatis memulihkan sesi kerja Anda pada ruang kerja tersebut.
+
 ## Praktik Keamanan Data dan Penanganan Kendala
 
 Karena seluruh data jadwal tersimpan di dalam database peramban lokal komputer Anda, ikuti panduan keselamatan data berikut:

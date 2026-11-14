@@ -4,9 +4,9 @@
 |---|---|
 | **Nama Proyek** | Schedovyn User Guide (Portal Panduan Pemakaian & Dokumentasi Resmi) |
 | **Produk Induk** | Schedovyn (*Smart Timetable Planner*) |
-| **Versi Dokumen** | 1.0.0 |
+| **Versi Dokumen** | 1.1.0 |
 | **Status** | Dokumen Rancangan Teknis Acuan (*Single Source of Truth* Teknis) |
-| **Dokumen Terkait** | [Schedovyn-User-Guide-PRD.md](./Schedovyn-User-Guide-PRD.md), [DESIGN.md](../DESIGN.md), [AGENTS.md](../AGENTS.md) |
+| **Dokumen Terkait** | [Schedovyn-User-Guide-PRD.md](./Schedovyn-User-Guide-PRD.md) (v1.2.0), [Schedovyn-PRD.md](./Schedovyn-PRD.md) (v1.1.0), [Schedovyn-TDD.md](./Schedovyn-TDD.md) (v1.1.0), [DESIGN.md](../DESIGN.md), [AGENTS.md](../AGENTS.md) |
 | **Runtime & Framework** | **Bun** (`^1.4.0`) + **Next.js** (`^16.4.3` App Router, RSC, Static Pre-rendering) + **React 19** + **TypeScript** (`strict: true`) |
 | **Gaya Desain** | `radix-lyra` (*Architectural Technical Grid*, `rounded-none`, garis batas `1px`, Indigo-Blue `#1547E6`, `tabular-nums`) |
 
@@ -15,12 +15,12 @@
 ## 1. Ringkasan Arsitektur & Prinsip Teknis
 
 ### 1.1 Ikhtisar Arsitektur Sistem
-**Schedovyn User Guide** dibangun sebagai aplikasi web dokumentasi statis (*Static Pre-rendered Documentation Portal*) berbasis **Next.js App Router**. Seluruh artikel panduan ditulis dalam format **MDX** di dalam repositori (`src/content/docs/`), dikompilasi pada waktu *build* menggunakan *React Server Components (RSC)*, dan diperkaya dengan pulau-pulau interaktivitas sisi klien (*Client Components* `"use client"`) untuk pencarian cepat `Ctrl+K`, penjelajah kamus konflik, sakelar pintasan keyboard, dan replika visual komponen Schedovyn.
+**Schedovyn User Guide** dibangun sebagai aplikasi web dokumentasi statis (*Static Pre-rendered Documentation Portal*) berbasis **Next.js App Router**. Seluruh artikel panduan ditulis dalam format **MDX** di dalam repositori (`src/content/docs/`), dikompilasi pada waktu *build* menggunakan *React Server Components (RSC)*, dan diperkaya dengan pulau-pulau interaktivitas sisi klien (*Client Components* `"use client"`) untuk pencarian cepat `Ctrl+K`, penjelajah kamus konflik, sakelar pintasan keyboard, pemilih multi-ruang kerja (*multi-workspace*), dan replika visual komponen Schedovyn.
 
 ```mermaid
 flowchart TD
     subgraph BuildTime["Waktu Build (Next.js Static Pre-Rendering)"]
-        MDXFiles["20 Berkas Artikel MDX (src/content/docs/01..06)"]
+        MDXFiles["22 Berkas Artikel MDX (src/content/docs/01..06)"]
         Registry["Registry 6 Modul (src/lib/docs-registry.ts)"]
         MDXLoader["MDX Compiler & Heading Extractor (src/lib/mdx-loader.ts)"]
         StaticPages["Halaman Statis HTML/RSC (/ dan /docs/[[...slug]])"]
@@ -35,7 +35,7 @@ flowchart TD
         SearchDialog["SearchCommandDialog (Ctrl+K / '/')"]
         ThemeMgr["ThemeProvider (next-themes + Pintasan 'D')"]
         TOC["TableOfContents (IntersectionObserver Scroll-Spy)"]
-        Replicas["5 Komponen Replika UI Schedovyn (src/components/replicas/*)"]
+        Replicas["6 Komponen Replika UI Schedovyn (src/components/replicas/*)"]
 
         Registry --> SearchEngine
         SearchEngine --> SearchDialog
@@ -53,9 +53,9 @@ flowchart TD
    - Tidak memerlukan server database atau pemanggilan API eksternal saat runtime; perpindahan halaman melalui `<Link>` Next.js berlangsung instan (`< 50 ms`).
 2. **Pemisahan Tegas Server vs Client Components:**
    - **Server Components (Default):** `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/docs/layout.tsx`, `src/app/docs/[[...slug]]/page.tsx`, `Callout.tsx`, `StepList.tsx`, dan `DocsPager.tsx`.
-   - **Client Components (`"use client"`):** Hanya digunakan pada komponen yang membutuhkan *state*, *browser event listener*, atau DOM observer: `ThemeProvider.tsx`, `DocsNavbar.tsx`, `DocsSidebar.tsx`, `TableOfContents.tsx`, `SearchCommandDialog.tsx`, serta ke-5 komponen di `src/components/replicas/`.
+   - **Client Components (`"use client"`):** Hanya digunakan pada komponen yang membutuhkan *state*, *browser event listener*, atau DOM observer: `ThemeProvider.tsx`, `DocsNavbar.tsx`, `DocsSidebar.tsx`, `TableOfContents.tsx`, `SearchCommandDialog.tsx`, serta ke-6 komponen di `src/components/replicas/`.
 3. **Zero `any` Policy & Strict TypeScript:**
-   - Seluruh kontrak data modul, frontmatter MDX, indeks pencarian, kamus konflik, dan *props* komponen wajib didefinisikan dengan tipe TypeScript eksplisit (`strict: true`).
+   - Seluruh kontrak data modul, frontmatter MDX, indeks pencarian, kamus konflik, simulasi multi-workspace, dan *props* komponen wajib didefinisikan dengan tipe TypeScript eksplisit (`strict: true`).
 4. **Kepatuhan Bahasa & Bebas Karakter *Em Dash* (`NFR-UG-01`, `AC-UG-05`):**
    - Seluruh teks antarmuka, artikel MDX, dan label di dalam komponen replika wajib menggunakan Bahasa Indonesia yang 100% selaras dengan aplikasi utama Schedovyn dan **bebas dari karakter *em dash***.
 
@@ -85,7 +85,7 @@ export const PUBLIC_ENV: PublicEnvConfig = {
 export type ModuleNumber = "01" | "02" | "03" | "04" | "05" | "06";
 
 export interface DocArticleMeta {
-  readonly order: string;          // Contoh: "1.1", "4.2" (tabular-nums)
+  readonly order: string;          // Contoh: "1.1", "2.4", "4.2" (tabular-nums)
   readonly title: string;          // Judul artikel Bahasa Indonesia (bebas em dash)
   readonly description: string;    // Ringkasan untuk SEO, kartu beranda, dan pencarian
   readonly moduleNumber: ModuleNumber;
@@ -110,8 +110,8 @@ export interface AdjacentArticles {
 }
 ```
 
-### 2.2 Tabel Pemetaan 6 Modul & 20 Rute Artikel MDX
-Seluruh 20 artikel wajib terdaftar secara berurutan di dalam `DOCS_MODULES`:
+### 2.2 Tabel Pemetaan 6 Modul & 22 Rute Artikel MDX
+Seluruh 22 artikel wajib terdaftar secara berurutan di dalam `DOCS_MODULES`:
 
 | Urutan | Modul | Path Berkas MDX (`src/content/docs/...`) | URL Rute (`/docs/...`) | Komponen Replika Tersemat |
 |---|---|---|---|---|
@@ -121,6 +121,7 @@ Seluruh 20 artikel wajib terdaftar secara berurutan di dalam `DOCS_MODULES`:
 | `2.1` | Modul 02 | `02-ruang-kerja-dan-data-master/pengaturan-jam-belajar.mdx` | `/docs/02-ruang-kerja-dan-data-master/pengaturan-jam-belajar` | `<StepList>`, `<Callout>` |
 | `2.2` | Modul 02 | `02-ruang-kerja-dan-data-master/kelola-kelas-mapel-guru-ruangan.mdx` | `/docs/02-ruang-kerja-dan-data-master/kelola-kelas-mapel-guru-ruangan` | Tabel 10 Warna Mapel |
 | `2.3` | Modul 02 | `02-ruang-kerja-dan-data-master/kebutuhan-pembelajaran-mingguan.mdx` | `/docs/02-ruang-kerja-dan-data-master/kebutuhan-pembelajaran-mingguan` | `<StepList>`, `<Callout>` |
+| `2.4` | Modul 02 | `02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja.mdx` | `/docs/02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja` | `WorkspaceSwitcherReplica`, `<StepList>`, `<Callout>` |
 | `3.1` | Modul 03 | `03-menyusun-jadwal-editor/memilih-kelas-aktif.mdx` | `/docs/03-menyusun-jadwal-editor/memilih-kelas-aktif` | `<Callout>` |
 | `3.2` | Modul 03 | `03-menyusun-jadwal-editor/menempatkan-sesi-belum-terjadwal.mdx` | `/docs/03-menyusun-jadwal-editor/menempatkan-sesi-belum-terjadwal` | `<StepList>` |
 | `3.3` | Modul 03 | `03-menyusun-jadwal-editor/menyunting-dan-memindahkan-sesi.mdx` | `/docs/03-menyusun-jadwal-editor/menyunting-dan-memindahkan-sesi` | `SessionBlockOverlapReplica` |
@@ -135,7 +136,7 @@ Seluruh 20 artikel wajib terdaftar secara berurutan di dalam `DOCS_MODULES`:
 | `6.1` | Modul 06 | `06-penyimpanan-pwa-dan-pintasan/penyimpanan-otomatis-indexeddb.mdx` | `/docs/06-penyimpanan-pwa-dan-pintasan/penyimpanan-otomatis-indexeddb` | `SaveStatusBadgeReplica` |
 | `6.2` | Modul 06 | `06-penyimpanan-pwa-dan-pintasan/pasang-aplikasi-pwa-offline.mdx` | `/docs/06-penyimpanan-pwa-dan-pintasan/pasang-aplikasi-pwa-offline` | `<StepList>` |
 | `6.3` | Modul 06 | `06-penyimpanan-pwa-dan-pintasan/daftar-pintasan-keyboard.mdx` | `/docs/06-penyimpanan-pwa-dan-pintasan/daftar-pintasan-keyboard` | `KeyboardShortcutSwitch` |
-| `6.4` | Modul 06 | `06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara.mdx` | `/docs/06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara` | `<StepList>`, `ValidationStatusBadgesReplica` |
+| `6.4` | Modul 06 | `06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara.mdx` | `/docs/06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara` | `<StepList>`, `ValidationStatusBadgesReplica`, `WorkspaceSwitcherReplica` |
 
 ### 2.3 Aturan Resolusi Rute Dinamis (`/docs/[[...slug]]/page.tsx`)
 Dalam Next.js 16 App Router, `params` pada komponen halaman bersifat *asynchronous* (`Promise<{ slug?: string[] }>`):
@@ -143,7 +144,7 @@ Dalam Next.js 16 App Router, `params` pada komponen halaman bersifat *asynchrono
    Mengembalikan:
    - `{ slug: undefined }` (untuk rute indeks `/docs`)
    - `{ slug: [moduleGroup.moduleSlug] }` (untuk rute level modul `/docs/01-pengenalan`, dll.)
-   - `{ slug: [article.moduleSlug, article.articleSlug] }` (untuk ke-20 rute artikel penuh).
+   - `{ slug: [article.moduleSlug, article.articleSlug] }` (untuk ke-22 rute artikel penuh).
 2. **Resolusi `getDocArticleBySlug(slug)`:**
    - Jika `slug` kosong (`/docs`), mengembalikan artikel pertama (`1.1 Mengenal Schedovyn & Prinsip Kerja`).
    - Jika `slug` berisi 1 segmen modul (`/docs/02-ruang-kerja-dan-data-master`), mengembalikan artikel pertama di dalam modul tersebut (`2.1`).
@@ -202,6 +203,7 @@ Setiap berkas `.mdx` dapat langsung menggunakan komponen berikut tanpa perlu mel
   - `<SaveStatusBadgeReplica />`
   - `<SessionBlockOverlapReplica />`
   - `<KeyboardShortcutSwitch />`
+  - `<WorkspaceSwitcherReplica />`
 
 ---
 
@@ -210,7 +212,7 @@ Setiap berkas `.mdx` dapat langsung menggunakan komponen berikut tanpa perlu mel
 ### 4.1 Arsitektur Pengindeksan (`MiniSearch`)
 Pencarian bekerja 100% di sisi klien (`FR-UG-02`, `AC-UG-03`) menggunakan pustaka `MiniSearch`:
 - **Field yang Diindeks & Bobot (*Boost*):**
-  - `keywordsText` (bobot `4.0`): Mencakup kode sistem (`TEACHER_OVERLAP`, `COMPLETE_AND_VALID`, dll.), nama tombol (`Tempatkan ke Jadwal`, `Salin Jadwal`, `Batal Perubahan`), serta sinonim kendala pengguna (`istirahat`, `konflik guru`, `excel`, `undo`).
+  - `keywordsText` (bobot `4.0`): Mencakup kode sistem (`TEACHER_OVERLAP`, `COMPLETE_AND_VALID`, `BLANK`, `SEED_DEFAULT`, `MASTER_DATA_ONLY`, `FULL_COPY`), nama tombol (`Tempatkan ke Jadwal`, `Salin Jadwal`, `Batal Perubahan`, `Ruang Kerja Kosong`, `Muat Data Contoh`, `Konfigurasi & Data Master Saja`, `Salin Penuh Beserta Jadwal`), serta sinonim kendala pengguna (`istirahat`, `konflik guru`, `excel`, `undo`, `workspace`, `multi-workspace`, `duplikasi ruang kerja`, `semester baru`, `clone`).
   - `articleTitle` (bobot `3.0`): Judul artikel panduan.
   - `sectionHeading` (bobot `2.5`): Nomor bab + judul sub-bagian.
   - `content` (bobot `1.5`): Ringkasan dan isi materi panduan.
@@ -228,7 +230,7 @@ Pencarian bekerja 100% di sisi klien (`FR-UG-02`, `AC-UG-03`) menggunakan pustak
   - Dapat ditutup dengan menekan `Escape` atau mengeklik area *backdrop*.
 - **State & Navigasi:**
   - Saat dialog terbuka, fokus otomatis diarahkan ke kolom input pencarian.
-  - Jika input masih kosong, menampilkan **Akses Cepat 6 Modul** dan **Kata Kunci Populer** (`"istirahat"`, `"konflik guru"`, `"salin jadwal"`, `"excel"`, `"undo"`).
+  - Jika input masih kosong, menampilkan **Akses Cepat 6 Modul** dan **Kata Kunci Populer** (`"istirahat"`, `"konflik guru"`, `"salin jadwal"`, `"duplikasi ruang kerja"`, `"excel"`, `"undo"`).
   - Jika kata kunci menghasilkan kecocokan, menampilkan daftar per modul; menekan `Enter` atau mengeklik salah satu hasil akan memanggil `router.push(item.href)` dan menutup dialog.
   - **Empty State Jujur (`R-27`):** Jika kata kunci tidak menghasilkan kecocokan, menampilkan pesan informatif dalam Bahasa Indonesia beserta tombol pintas menuju halaman **Kamus Konflik & Validasi**.
 
@@ -258,7 +260,7 @@ Pencarian bekerja 100% di sisi klien (`FR-UG-02`, `AC-UG-03`) menggunakan pustak
   ```
 - **Perilaku:**
   - Membaca rute aktif menggunakan `usePathname()` dari `next/navigation` (jika berada di `/docs`, menyorot artikel `1.1`).
-  - Merender ke-6 grup modul (`01` s.d. `06` dengan `tabular-nums`) dan daftar sub-artikelnya.
+  - Merender ke-6 grup modul (`01` s.d. `06` dengan `tabular-nums`) dan daftar 22 sub-artikelnya.
   - Item yang sedang aktif diberi kelas `border-l-2 border-[var(--primary)] bg-[var(--surface-subtle)] font-semibold text-[var(--primary)]` dan atribut `aria-current="page"`.
   - Pada layar *mobile* (`< 1024px`), dirender di dalam panel `Dialog` samping (*drawer*) yang menutup otomatis saat salah satu tautan artikel diklik atau tombol `Escape` ditekan.
 
@@ -297,9 +299,9 @@ Pencarian bekerja 100% di sisi klien (`FR-UG-02`, `AC-UG-03`) menggunakan pustak
 
 ---
 
-## 6. Spesifikasi Teknis & Kontrak Data 5 Komponen Replika UI (`src/components/replicas/`)
+## 6. Spesifikasi Teknis & Kontrak Data 6 Komponen Replika UI (`src/components/replicas/`)
 
-Seluruh komponen replika wajib menggunakan direktif `"use client"`, dibungkus dalam bingkai peraga teknis berlabel `"PERAGA INTERAKTIF ANTARMUKA SCHEDOVYN"`, dan memuat terminologi Bahasa Indonesia yang 100% akurat sesuai `AC-UG-04` dan `AC-UG-05`.
+Seluruh komponen replika wajib menggunakan direktif `"use client"`, dibungkus dalam bingkai peraga teknis berlabel `"PERAGA INTERAKTIF ANTARMUKA SCHEDOVYN"`, dan memuat terminologi Bahasa Indonesia yang 100% akurat sesuai `AC-UG-04`, `AC-UG-05`, dan `AC-UG-07`.
 
 ### 6.1 `ValidationStatusBadgesReplica.tsx`
 Mendokumentasikan dan menyimulasikan **4 Status Validasi Jadwal** resmi Schedovyn:
@@ -308,8 +310,8 @@ Mendokumentasikan dan menyimulasikan **4 Status Validasi Jadwal** resmi Schedovy
 |---|---|---|---|---|
 | `CONFLICT_DETECTED` | `"Konflik ditemukan"` | `error` (Merah) | Terdapat >= 1 bentrokan waktu nyata | Terdapat >= 1 bentrokan waktu di ruang kerja |
 | `INCOMPLETE` | `"Belum lengkap"` | `warning` (Kuning) | 0 bentrokan waktu, namun masih ada sesi belum terjadwal / peringatan kelengkapan | Belum seluruh kebutuhan sesi terpenuhi |
-| `NO_CONFLICT_CURRENT_DATA` | `"Tidak ada konflik pada data saat ini"` | `info` (Biru) | Kelas aktif 100% lengkap dan 0 konflik | Kelas lain di sekolah masih belum selesai disusun |
-| `COMPLETE_AND_VALID` | `"Jadwal lengkap dan valid"` | `valid` (Hijau) | Kelas aktif 100% lengkap dan 0 konflik | Seluruh kelas di sekolah 100% lengkap dan 0 konflik |
+| `NO_CONFLICT_CURRENT_DATA` | `"Tidak ada konflik pada data saat ini"` | `info` (Biru) | Kelas aktif 100% lengkap dan 0 konflik | Kelas lain di ruang kerja aktif masih belum selesai disusun |
+| `COMPLETE_AND_VALID` | `"Jadwal lengkap dan valid"` | `valid` (Hijau) | Kelas aktif 100% lengkap dan 0 konflik | Seluruh kelas di ruang kerja aktif 100% lengkap dan 0 konflik |
 
 - **Interaksi:** Pengguna dapat mengeklik salah satu dari ke-4 lencana status untuk melihat rincian kode sistem, penjelasan kondisi di lapangan, contoh kasus di `SMP Negeri 1 Nusantara`, dan langkah tindakan yang harus dilakukan.
 
@@ -344,7 +346,7 @@ Menyimulasikan **3 Status Penyimpanan Otomatis Lokal (IndexedDB)** di bilah head
 ### 6.4 `SessionBlockOverlapReplica.tsx`
 Menyimulasikan tampilan blok sesi pada kanvas grid waktu (`Modul 3.3`):
 - Memiliki sakelar skenario:
-  1. ** Kondisi Tumpang Tindih (*Overlap Cluster*):** Menampilkan dua blok sesi berdampingan pada kolom hari **Senin, 07:30 - 09:00** di **Kelas VII-A** (`Matematika` bersama `Budi Santoso, S.Pd.` dan `Ilmu Pengetahuan Alam (IPA)` bersama `Siti Aminah, M.Pd.`) lengkap dengan bingkai merah peringatan `CLASS_OVERLAP`.
+  1. **Kondisi Tumpang Tindih (*Overlap Cluster*):** Menampilkan dua blok sesi berdampingan pada kolom hari **Senin, 07:30 - 09:00** di **Kelas VII-A** (`Matematika` bersama `Budi Santoso, S.Pd.` dan `Ilmu Pengetahuan Alam (IPA)` bersama `Siti Aminah, M.Pd.`) lengkap dengan bingkai merah peringatan `CLASS_OVERLAP`.
   2. **Kondisi Terjadwal Berurutan (Bebas Konflik):** Menampilkan kedua sesi yang telah dipisahkan secara berurutan (`07:30 - 09:00` dan `09:00 - 10:30`, sesuai aturan batas waktu tepat `startA < endB && startB < endA`) atau setelah salah satu sesi dilepas kembali ke panel belum terjadwal menggunakan tombol **"Lepas dari Grid"** / **"Tempatkan ke Jadwal"**.
 
 ### 6.5 `KeyboardShortcutSwitch.tsx`
@@ -354,11 +356,46 @@ Menyediakan sakelar interaktif antara **`Windows / Linux`** dan **`macOS`** (`FR
 |---|---|---|---|
 | **Batal Perubahan (*Undo*)** | `Ctrl + Z` | `Cmd + Z` | Membatalkan hingga 50 langkah penyuntingan terakhir |
 | **Ulangi Perubahan (*Redo*)** | `Ctrl + Y` atau `Ctrl + Shift + Z` | `Cmd + Shift + Z` | Mengulangi langkah perubahan yang baru saja dibatalkan |
-| **Geser Waktu Sesi Maju / Mundur** | `Alt + ArrowUp` / `Alt + ArrowDown` | `Option + ArrowUp` / `Option + ArrowDown` | Menggeser jam sesi yang dipilih sebesar interval snap (`15/30/45/60` menit) |
+| **Geser Waktu Sesi Maju / Mundur** | `Alt + ArrowUp` / `Alt + ArrowDown` | `Option + ArrowUp` / `Option + ArrowDown` | Menggeser jam sesi yang dipilih sebesar interval snap (`5/10/15/30/60` menit) |
 | **Pindahkan Sesi Antar-Hari** | `Alt + ArrowLeft` / `Alt + ArrowRight` | `Option + ArrowLeft` / `Option + ArrowRight` | Memindahkan sesi yang dipilih ke hari sekolah sebelumnya atau berikutnya |
 | **Lepas dari Grid** | `Delete` / `Backspace` | `Delete` / `Backspace` | Melepas sesi yang dipilih kembali ke panel sesi belum terjadwal |
 | **Fokus ke Panel Detail Sesi** | `Enter` | `Enter` | Membuka fokus langsung ke formulir penyuntingan pada Panel Detail Sesi |
 | **Ganti Tema Tampilan** | `D` | `D` | Mengganti tema tampilan antara Mode Terang dan Mode Gelap |
+
+### 6.6 `WorkspaceSwitcherReplica.tsx`
+Mendokumentasikan dan menyimulasikan fitur **Pengelolaan Multi-Ruang Kerja (`FR-13`, `AC-14`, `AC-UG-07`)** pada artikel `2.4` dan studi kasus `6.4`:
+
+```ts
+export type WorkspaceInitModeReplica = "BLANK" | "SEED_DEFAULT";
+export type WorkspaceDuplicateModeReplica = "MASTER_DATA_ONLY" | "FULL_COPY";
+
+export interface ReplicaWorkspaceItem {
+  readonly id: string;
+  readonly name: string;
+  readonly academicPeriod: string;
+  readonly snapIntervalMinutes: 5 | 10 | 15 | 30 | 60;
+  readonly classesCount: number;
+  readonly teachersCount: number;
+  readonly scheduledSessionsCount: number;
+  readonly unscheduledSessionsCount: number;
+  readonly validationStatusLabel: string;
+}
+```
+
+- **Fitur Simulasi Interaktif:**
+  1. **Pemilih Ruang Kerja Aktif (*Workspace Switcher*):**
+     - Menyediakan daftar ruang kerja contoh (misal: `SMP Negeri 1 Nusantara - Semester Ganjil 2026/2027` dan `SMP Negeri 1 Nusantara - Semester Genap 2026/2027`).
+     - Saat pengguna berpindah ruang kerja aktif, komponen menampilkan status bahwa ruang kerja aktif terakhir disimpan ke `localStorage` (`schedovyn_active_workspace_id`), evaluasi konflik terisolasi pada `workspaceId` terpilih, dan tumpukan riwayat *Undo/Redo* otomatis direset (`0 langkah`).
+  2. **Perbandingan Mode Pembuatan Ruang Kerja Baru (`WorkspaceInitMode`):**
+     - Sakelar interaktif antara:
+       - **`BLANK` ("Ruang Kerja Kosong"):** Menampilkan ringkasan hasil inisialisasi: hari Senin s.d. Jumat aktif, Sabtu s.d. Minggu libur, `0` kelas, `0` guru, `0` mata pelajaran, dan `0` sesi terjadwal.
+       - **`SEED_DEFAULT` ("Muat Data Contoh"):** Menampilkan ringkasan hasil inisialisasi: mengisi ruang kerja baru dengan data contoh `SMP Negeri 1 Nusantara` menggunakan namespace UUID v4 unik sehingga bebas dari *Primary Key Collision* di IndexedDB.
+  3. **Perbandingan Mode Duplikasi Ruang Kerja (`WorkspaceDuplicateMode`):**
+     - Sakelar interaktif antara:
+       - **`MASTER_DATA_ONLY` ("Konfigurasi & Data Master Saja"):** Menyalin konfigurasi jam belajar, kelas, guru, mata pelajaran, ruangan, dan kebutuhan pembelajaran mingguan dengan pemetaan ulang ID (`Map<string, string>`), sementara jadwal sesi dikosongkan (`sessions = []`) untuk penyusunan semester baru.
+       - **`FULL_COPY` ("Salin Penuh Beserta Jadwal"):** Menyalin seluruh konfigurasi, data master, kebutuhan pembelajaran, beserta seluruh posisi sesi terjadwal di grid untuk simulasi perubahan jadwal atau pencadangan lokal.
+  4. **Simulasi Proteksi Penghapusan Ruang Kerja Terakhir:**
+     - Menampilkan aturan integritas bahwa tombol **"Hapus Ruang Kerja"** aktif ketika terdapat lebih dari 1 ruang kerja, dan otomatis dinonaktifkan (`disabled`) disertai keterangan perlindungan apabila hanya tersisa 1 ruang kerja aktif di browser.
 
 ---
 
@@ -370,23 +407,29 @@ Seluruh pengembangan fitur wajib mengikuti siklus **Red-Green-Refactor** yang di
 
 | Berkas Pengujian | Target Modul / Komponen | Kriteria Penerimaan yang Diuji |
 |---|---|---|
-| `src/__tests__/foundation-setup.test.tsx` | `docs-registry.ts`, `search-engine.ts`, `ThemeProvider.tsx`, `env.ts` | `AC-UG-01`, `AC-UG-02`, `AC-UG-06`, `NFR-UG-01` (fondasi registry 6 modul, pencarian dasar, pintasan `D`, bebas *em dash*) |
+| `src/__tests__/foundation-setup.test.tsx` | `docs-registry.ts`, `search-engine.ts`, `ThemeProvider.tsx`, `env.ts` | `AC-UG-01`, `AC-UG-02`, `AC-UG-06`, `NFR-UG-01` (fondasi registry 6 modul / 22 artikel, pencarian dasar, pintasan `D`, bebas *em dash*) |
 | `src/__tests__/docs-layout-navigation.test.tsx` | `DocsNavbar.tsx`, `DocsSidebar.tsx`, `TableOfContents.tsx`, `DocsPager.tsx` | `FR-UG-01`, `AC-UG-02`, `AC-UG-06` (navigasi 6 modul tanpa *broken links*, penyorotan rute aktif, urutan *prev/next*, tombol `"Buka Aplikasi Schedovyn"`) |
-| `src/__tests__/search-command-dialog.test.tsx` | `SearchCommandDialog.tsx`, `search-engine.ts` | `FR-UG-02`, `AC-UG-03` (pembukaan dialog lewat `Ctrl+K` atau `/`, hasil pencarian `"istirahat"`, `"konflik guru"`, `"excel"`, `"undo"`, navigasi rute saat diklik, dan *empty state*) |
-| `src/__tests__/interactive-replicas.test.tsx` | `ValidationStatusBadgesReplica`, `ConflictDictionaryExplorer`, `SaveStatusBadgeReplica`, `SessionBlockOverlapReplica`, `KeyboardShortcutSwitch` | `FR-UG-03`, `FR-UG-04`, `AC-UG-04`, `AC-UG-05` (4 status validasi, filter 7 konflik waktu & 5 peringatan kelengkapan, 3 status simpan, tombol `"Lepas dari Grid"`, sakelar Windows/Linux vs macOS) |
-| `src/__tests__/mdx-content-integrity.test.ts` | Seluruh 20 berkas `.mdx` di `src/content/docs/` & `mdx-loader.ts` | `FR-UG-05`, `NFR-UG-01`, `NFR-UG-02`, `AC-UG-01`, `AC-UG-05` (ketersediaan seluruh 20 berkas MDX, ketiadaan karakter *em dash* di seluruh artikel, kelengkapan studi kasus SMP Negeri 1 Nusantara, dan akurasi istilah UI) |
+| `src/__tests__/search-command-dialog.test.tsx` | `SearchCommandDialog.tsx`, `search-engine.ts` | `FR-UG-02`, `AC-UG-03` (pembukaan dialog lewat `Ctrl+K` atau `/`, hasil pencarian `"istirahat"`, `"konflik guru"`, `"excel"`, `"undo"`, `"duplikasi ruang kerja"`, navigasi rute saat diklik, dan *empty state*) |
+| `src/__tests__/interactive-replicas.test.tsx` | `ValidationStatusBadgesReplica`, `ConflictDictionaryExplorer`, `SaveStatusBadgeReplica`, `SessionBlockOverlapReplica`, `KeyboardShortcutSwitch`, `WorkspaceSwitcherReplica` | `FR-UG-03`, `FR-UG-04`, `AC-UG-04`, `AC-UG-05`, `AC-UG-07` (4 status validasi, filter 7 konflik waktu & 5 peringatan kelengkapan, 3 status simpan, tombol `"Lepas dari Grid"`, sakelar Windows/Linux vs macOS, serta simulasi multi-workspace `BLANK`, `SEED_DEFAULT`, `MASTER_DATA_ONLY`, `FULL_COPY`) |
+| `src/__tests__/mdx-content-integrity.test.ts` | Seluruh 22 berkas `.mdx` di `src/content/docs/` & `mdx-loader.ts` | `FR-UG-05`, `NFR-UG-01`, `NFR-UG-02`, `AC-UG-01`, `AC-UG-05`, `AC-UG-07` (ketersediaan seluruh 22 berkas MDX termasuk `kelola-multi-ruang-kerja.mdx`, ketiadaan karakter *em dash* di seluruh artikel, kelengkapan studi kasus SMP Negeri 1 Nusantara, dan akurasi istilah UI) |
 
 ---
 
 ## 8. Peta Eksekusi Task (Implementation Roadmap)
 
-Pengembangan dibagi ke dalam 4 tahap terstruktur di dalam `docs/tasks/`:
+Pengembangan dibagi ke dalam 5 tahap terstruktur di dalam `docs/tasks/`:
 
 1. **`TASK-01` (Selesai): Instalasi & Setup Fondasi Proyek**
    - Instalasi paket Bun, token CSS `radix-lyra` & `@media print`, `ThemeProvider`, primitif `src/components/ui/`, kontrak `docs-registry.ts` & `search-engine.ts`, serta setup Vitest.
-2. **`TASK-02`: Kerangka Tata Letak 3 Kolom, Navigasi, Pencarian `Ctrl+K`, & Halaman Beranda (`FR-UG-01`, `FR-UG-02`, `AC-UG-02`, `AC-UG-03`, `AC-UG-06`)**
+2. **`TASK-02` (Selesai): Kerangka Tata Letak 3 Kolom, Navigasi, Pencarian `Ctrl+K`, & Halaman Beranda (`FR-UG-01`, `FR-UG-02`, `AC-UG-02`, `AC-UG-03`, `AC-UG-06`)**
    - Implementasi `src/lib/mdx-loader.ts`, `DocsNavbar.tsx`, `DocsSidebar.tsx`, `TableOfContents.tsx`, `DocsPager.tsx`, `Callout.tsx`, `StepList.tsx`, `SearchCommandDialog.tsx`, halaman Beranda `src/app/page.tsx`, serta rute `src/app/docs/layout.tsx` dan `src/app/docs/[[...slug]]/page.tsx`.
-3. **`TASK-03`: Implementasi 5 Komponen Replika UI Interaktif (`FR-UG-03`, `FR-UG-04`, `AC-UG-04`, `AC-UG-05`)**
+3. **`TASK-03` (Selesai): Implementasi 5 Komponen Replika UI Interaktif Awal (`FR-UG-03`, `FR-UG-04`, `AC-UG-04`, `AC-UG-05`)**
    - Implementasi `ValidationStatusBadgesReplica.tsx`, `ConflictDictionaryExplorer.tsx`, `SaveStatusBadgeReplica.tsx`, `SessionBlockOverlapReplica.tsx`, dan `KeyboardShortcutSwitch.tsx`.
-4. **`TASK-04`: Penulisan 20 Artikel Panduan MDX pada 6 Modul & Studi Kasus Terpadu (`FR-UG-05`, `NFR-UG-01`, `AC-UG-01`, `AC-UG-05`)**
-   - Penulisan lengkap seluruh 20 artikel MDX (`Modul 01` s.d. `Modul 06`) termasuk studi kasus `studi-kasus-smp-nusantara.mdx`, pengindeksan konten penuh ke `search-engine.ts`, dan pengujian integritas akhir (`bun run test` & `bun run build`).
+4. **`TASK-04` (Selesai): Penulisan Artikel Panduan MDX pada 6 Modul & Studi Kasus Terpadu (`FR-UG-05`, `NFR-UG-01`, `AC-UG-01`, `AC-UG-05`)**
+   - Penulisan artikel MDX (`Modul 01` s.d. `Modul 06`) termasuk studi kasus `studi-kasus-smp-nusantara.mdx`, pengindeksan konten penuh ke `search-engine.ts`, dan pengujian integritas.
+5. **`TASK-05`: Dokumentasi Multi-Ruang Kerja (`FR-13`), Indeks Pencarian, & Komponen `WorkspaceSwitcherReplica` (`FR-UG-03`, `FR-UG-05`, `AC-UG-02`, `AC-UG-03`, `AC-UG-05`, `AC-UG-07`)**
+   - Pembaruan `src/lib/docs-registry.ts` untuk mendaftarkan artikel `2.4 Mengelola Multi-Ruang Kerja & Duplikasi Semester` (`02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja.mdx`, total 22 artikel).
+   - Pembaruan `src/lib/search-engine.ts` dan kata kunci populer pada `SearchCommandDialog.tsx` untuk mencakup pencarian multi-workspace (`BLANK`, `SEED_DEFAULT`, `MASTER_DATA_ONLY`, `FULL_COPY`, `duplikasi ruang kerja`).
+   - Implementasi komponen `src/components/replicas/WorkspaceSwitcherReplica.tsx` dan pendaftarannya ke `mdxComponents` di `src/lib/mdx-loader.ts`.
+   - Penulisan artikel `src/content/docs/02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja.mdx` serta pembaruan kontekstual pada `mengenal-schedovyn.mdx`, `tata-letak-aplikasi.mdx`, `riwayat-undo-dan-redo.mdx`, `penyimpanan-otomatis-indexeddb.mdx`, dan `studi-kasus-smp-nusantara.mdx`.
+   - Pembaruan dan eksekusi pengujian otomatis di `src/__tests__/` hingga seluruh test berstatus **GREEN** dan `bun run build` berhasil tanpa error.

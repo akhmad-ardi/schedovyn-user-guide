@@ -1,0 +1,83 @@
+---
+title: "Mengelola Multi-Ruang Kerja & Duplikasi Semester"
+description: "Cara membuat ruang kerja baru, menduplikasi data master untuk semester baru atau simulasi jadwal, berpindah ruang kerja aktif, dan memahami aturan isolasi data lokal."
+order: "2.4"
+---
+
+## Konsep Ruang Kerja Mandiri
+
+Pengelolaan jadwal sekolah sering kali membutuhkan lebih dari satu lingkungan kerja. Sebagai contoh, tim kurikulum perlu menyusun jadwal Semester Ganjil yang sedang aktif sekaligus mulai merancang jadwal Semester Genap untuk periode berikutnya, atau ingin membuat draf simulasi untuk menguji perubahan jam tanpa merusak jadwal resmi sekolah.
+
+Schedovyn mendukung fitur multi-ruang kerja (*multi-workspace*) secara lokal di peramban. Setiap ruang kerja memiliki konfigurasi jam belajar, data master (kelas, guru, mata pelajaran, ruangan), kebutuhan tatap muka mingguan, serta posisi sesi jadwal yang terisolasi penuh.
+
+## Pemilih Ruang Kerja Aktif (Workspace Switcher)
+
+Anda dapat melihat dan beralih antar-ruang kerja dengan mudah menggunakan menu **Workspace Switcher** yang terletak pada bilah header aplikasi.
+
+Saat Anda berpindah dari satu ruang kerja ke ruang kerja lain:
+
+1. **Pemulihan Otomatis:** Peramban menyimpan ID ruang kerja yang sedang aktif pada penyimpanan lokal (`localStorage`) menggunakan kunci `schedovyn_active_workspace_id`. Saat aplikasi dibuka kembali, ruang kerja terakhir akan langsung dimuat.
+2. **Isolasi Evaluasi Konflik:** Mesin validasi jadwal hanya menghitung bentrokan waktu guru, ruangan, dan kelas di dalam batas ruang kerja aktif. Data di ruang kerja lain tidak akan memicu bentrokan semu.
+3. **Pembersihan Riwayat Undo/Redo:** Tumpukan riwayat perubahan dibersihkan otomatis menjadi 0 langkah untuk mencegah mutasi jadwal diterapkan pada ruang kerja yang tidak sesuai.
+
+Berikut adalah peraga interaktif antarmuka pemilih ruang kerja Schedovyn:
+
+<WorkspaceSwitcherReplica />
+
+## Membuat Ruang Kerja Baru (BLANK vs SEED_DEFAULT)
+
+Saat membuat ruang kerja baru melalui tombol tambah di menu Workspace Switcher, Schedovyn menyediakan dua mode inisialisasi:
+
+1. **Ruang Kerja Kosong (`BLANK`):**
+   - Menghasilkan ruang kerja bersih dengan pengaturan jam sekolah standar (Senin sampai Jumat aktif, Sabtu dan Minggu libur) serta interval snap 30 menit.
+   - Tabel kelas, guru, mata pelajaran, ruangan, dan jadwal dimulai dari nol tanpa data awal. Mode ini direkomendasikan jika Anda ingin memasukkan data institusi sekolah baru secara mandiri.
+2. **Muat Data Contoh (`SEED_DEFAULT`):**
+   - Mengisi ruang kerja dengan paket data percontohan lengkap SMP Negeri 1 Nusantara (2 kelas paralel Kelas VII-A dan Kelas VII-B, 3 guru, ruangan Lab IPA, dan jadwal pembelajaran).
+   - Seluruh entitas dibuat dengan identitas unik (UUID baru) sehingga aman dicoba tanpa menimpa data ruang kerja lain di IndexedDB peramban.
+
+<StepList>
+<StepItem step="1" title="Buka Menu Pemilih Ruang Kerja">
+Klik nama ruang kerja aktif di bilah header atas untuk membuka menu dropdown Workspace Switcher.
+</StepItem>
+<StepItem step="2" title="Pilih Opsi Buat Ruang Kerja Baru">
+Tekan tombol Tambah Ruang Kerja pada bagian bawah menu dropdown.
+</StepItem>
+<StepItem step="3" title="Tentukan Mode Inisialisasi">
+Pilih opsi Ruang Kerja Kosong (BLANK) untuk memulai dari nol atau opsi Muat Data Contoh (SEED_DEFAULT) untuk memuat data latihan, lalu tekan tombol Buat Ruang Kerja.
+</StepItem>
+</StepList>
+
+## Menduplikasi Ruang Kerja untuk Semester Baru (MASTER_DATA_ONLY vs FULL_COPY)
+
+Menyalin ruang kerja adalah cara tercepat untuk mempersiapkan tahun ajaran baru atau membuat skenario simulasi tanpa harus mengetik ulang seluruh data guru dan kelas:
+
+### 1. Konfigurasi & Data Master Saja (`MASTER_DATA_ONLY`)
+Mode ini menyalin konfigurasi jam belajar harian, waktu istirahat, rombel kelas, daftar guru, mata pelajaran, fasilitas ruangan, serta target kebutuhan pembelajaran mingguan. Seluruh entitas diberikan ID unik baru melalui pemetaan data internal, namun seluruh kartu sesi jadwal dikosongkan. 
+
+Mode `MASTER_DATA_ONLY` adalah pilihan standar untuk mempersiapkan semester baru (misalnya beralih dari Semester Ganjil ke Semester Genap), di mana data pengajar dan rombel sama namun jadwal harian akan disusun ulang.
+
+### 2. Salin Penuh Beserta Jadwal (`FULL_COPY`)
+Mode ini menduplikasi seluruh konfigurasi, data master, kebutuhan pembelajaran, serta seluruh blok sesi yang sudah tertata di kanvas grid mingguan. 
+
+Mode `FULL_COPY` sangat bermanfaat saat Anda ingin membuat ruang kerja simulasi (misalnya menguji pergeseran jam mengajar salah satu guru) tanpa mengganggu draf jadwal resmi sekolah.
+
+<Callout variant="tip" title="Tips Persiapan Semester Baru">
+Gunakan mode Konfigurasi & Data Master Saja saat sekolah memasuki pergantian semester. Anda menghemat waktu berjam-jam karena tidak perlu mendaftarkan ulang dewan guru dan kelas, sekaligus mendapatkan kanvas kosong yang siap dijadwalkan ulang.
+</Callout>
+
+## Aturan Isolasi Data, Reset Riwayat Undo/Redo, dan Penghapusan Ruang Kerja
+
+Pengelolaan multi-ruang kerja di Schedovyn dirancang dengan prinsip keselamatan data lokal yang ketat:
+
+### Isolasi Database Lokal
+Di dalam basis data peramban IndexedDB (`schedovyn_local_db`), setiap baris data disimpan dengan pengenal unik `workspaceId`. Operasi pembacaan, pembaruan, dan ekspor jadwal selalu terkurung pada ruang kerja aktif sehingga integritas data terjamin.
+
+### Reset Riwayat Perubahan
+Ketika Anda berpindah ruang kerja melalui menu Workspace Switcher, tumpukan riwayat Batal Perubahan (Undo) dan Ulangi Perubahan (Redo) otomatis diatur ulang ke 0 langkah. Hal ini mencegah kekeliruan eksekusi mutasi jadwal antar-ruang kerja yang berbeda.
+
+### Proteksi Penghapusan Ruang Kerja Terakhir
+Anda dapat menghapus ruang kerja yang sudah tidak digunakan melalui tombol **Hapus Ruang Kerja** pada menu pengaturan ruang kerja. Namun, sistem menerapkan aturan proteksi wajib:
+
+<Callout variant="danger" title="Proteksi Ruang Kerja Terakhir">
+Sistem wajib mempertahankan minimal satu ruang kerja aktif di dalam peramban. Jika ruang kerja di browser hanya tersisa 1, tombol Hapus Ruang Kerja akan dinonaktifkan secara otomatis guna mencegah ruang kerja kosong tanpa konfigurasi.
+</Callout>

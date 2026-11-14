@@ -7,6 +7,8 @@ import { compileDocArticle } from "@/lib/mdx-loader";
 const REQUIRED_REPLICA_BINDINGS: Record<string, string> = {
   "01-pengenalan/mengenal-schedovyn.mdx": "<ValidationStatusBadgesReplica",
   "01-pengenalan/tata-letak-aplikasi.mdx": "<SaveStatusBadgeReplica",
+  "02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja.mdx":
+    "<WorkspaceSwitcherReplica",
   "03-menyusun-jadwal-editor/menyunting-dan-memindahkan-sesi.mdx":
     "<SessionBlockOverlapReplica",
   "04-kamus-konflik-dan-validasi/empat-status-validasi.mdx":
@@ -23,14 +25,14 @@ const REQUIRED_REPLICA_BINDINGS: Record<string, string> = {
     "<ValidationStatusBadgesReplica",
 };
 
-describe("TASK-04: Integritas Konten 21 Berkas MDX, Studi Kasus SMP Nusantara & Kepatuhan Standar", () => {
+describe("TASK-04 & TASK-05: Integritas Konten 22 Berkas MDX, Multi-Ruang Kerja, Studi Kasus SMP Nusantara & Kepatuhan Standar", () => {
   const allArticles = getAllDocArticles();
 
-  it("mendaftarkan 21 artikel panduan resmi di dalam docs-registry", () => {
-    expect(allArticles.length).toBe(21);
+  it("mendaftarkan 22 artikel panduan resmi di dalam docs-registry", () => {
+    expect(allArticles.length).toBe(22);
   });
 
-  it("memastikan seluruh 21 berkas .mdx fisik benar-benar ada di disk dan bukan berkas kosong (AC-UG-01, AC-UG-02)", async () => {
+  it("memastikan seluruh 22 berkas .mdx fisik benar-benar ada di disk dan bukan berkas kosong (AC-UG-01, AC-UG-02)", async () => {
     for (const article of allArticles) {
       const fullPath = path.join(
         process.cwd(),
@@ -56,7 +58,7 @@ describe("TASK-04: Integritas Konten 21 Berkas MDX, Studi Kasus SMP Nusantara & 
     }
   });
 
-  it("memastikan 0 karakter em dash (\\u2014) di seluruh 21 berkas MDX (NFR-UG-01, R-02)", async () => {
+  it("memastikan 0 karakter em dash (\\u2014) di seluruh 22 berkas MDX (NFR-UG-01, R-02)", async () => {
     const emDashErrors: string[] = [];
 
     for (const article of allArticles) {
@@ -102,7 +104,7 @@ describe("TASK-04: Integritas Konten 21 Berkas MDX, Studi Kasus SMP Nusantara & 
     }
   });
 
-  it("memastikan artikel studi kasus SMP Negeri 1 Nusantara memuat alur terpadu lengkap (FR-UG-05)", async () => {
+  it("memastikan artikel studi kasus SMP Negeri 1 Nusantara memuat alur terpadu lengkap termasuk duplikasi semester (FR-UG-05, AC-UG-07)", async () => {
     const caseStudyPath = path.join(
       process.cwd(),
       "src/content/docs/06-penyimpanan-pwa-dan-pintasan/studi-kasus-smp-nusantara.mdx"
@@ -126,6 +128,10 @@ describe("TASK-04: Integritas Konten 21 Berkas MDX, Studi Kasus SMP Nusantara & 
     expect(content).toContain("Lepas dari Grid");
     expect(content).toContain("Jadwal lengkap dan valid");
 
+    // Multi-ruang kerja & duplikasi semester baru (TASK-05)
+    expect(content).toContain("MASTER_DATA_ONLY");
+    expect(content).toContain("<WorkspaceSwitcherReplica");
+
     // Komponen
     expect(content).toContain("<StepList>");
     expect(content).toContain(
@@ -133,33 +139,54 @@ describe("TASK-04: Integritas Konten 21 Berkas MDX, Studi Kasus SMP Nusantara & 
     );
   });
 
-  it("memverifikasi akurasi istilah resmi antarmuka Schedovyn di seluruh panduan (AC-UG-05)", async () => {
-    const termMap: Record<string, string> = {
-      "01-pengenalan/tata-letak-aplikasi.mdx": "Tersimpan di browser",
-      "03-menyusun-jadwal-editor/menempatkan-sesi-belum-terjadwal.mdx":
+  it("memverifikasi akurasi istilah resmi antarmuka Schedovyn di seluruh panduan (AC-UG-05, AC-UG-07)", async () => {
+    const termMap: Record<string, string[]> = {
+      "01-pengenalan/tata-letak-aplikasi.mdx": ["Tersimpan di browser"],
+      "02-ruang-kerja-dan-data-master/kelola-multi-ruang-kerja.mdx": [
+        "Ruang Kerja Kosong",
+        "Muat Data Contoh",
+        "Konfigurasi & Data Master Saja",
+        "Salin Penuh Beserta Jadwal",
+        "Hapus Ruang Kerja",
+        "BLANK",
+        "SEED_DEFAULT",
+        "MASTER_DATA_ONLY",
+        "FULL_COPY",
+        "schedovyn_active_workspace_id",
+      ],
+      "03-menyusun-jadwal-editor/menempatkan-sesi-belum-terjadwal.mdx": [
         "Tempatkan ke Jadwal",
-      "03-menyusun-jadwal-editor/menyunting-dan-memindahkan-sesi.mdx":
+      ],
+      "03-menyusun-jadwal-editor/menyunting-dan-memindahkan-sesi.mdx": [
         "Lepas dari Grid",
-      "03-menyusun-jadwal-editor/riwayat-undo-dan-redo.mdx": "Batal Perubahan",
-      "03-menyusun-jadwal-editor/menyalin-jadwal-antar-kelas.mdx":
+      ],
+      "03-menyusun-jadwal-editor/riwayat-undo-dan-redo.mdx": [
+        "Batal Perubahan",
+      ],
+      "03-menyusun-jadwal-editor/menyalin-jadwal-antar-kelas.mdx": [
         "Salin Jadwal",
-      "06-penyimpanan-pwa-dan-pintasan/penyimpanan-otomatis-indexeddb.mdx":
+      ],
+      "06-penyimpanan-pwa-dan-pintasan/penyimpanan-otomatis-indexeddb.mdx": [
         "Gagal menyimpan lokal",
-      "06-penyimpanan-pwa-dan-pintasan/pasang-aplikasi-pwa-offline.mdx":
+      ],
+      "06-penyimpanan-pwa-dan-pintasan/pasang-aplikasi-pwa-offline.mdx": [
         "Pasang Aplikasi",
+      ],
     };
 
-    for (const [filePath, expectedTerm] of Object.entries(termMap)) {
+    for (const [filePath, expectedTerms] of Object.entries(termMap)) {
       const fullPath = path.join(process.cwd(), "src/content/docs", filePath);
       const content = await fs.readFile(fullPath, "utf-8");
-      expect(
-        content,
-        `Berkas ${filePath} wajib memuat istilah resmi "${expectedTerm}"`
-      ).toContain(expectedTerm);
+      for (const expectedTerm of expectedTerms) {
+        expect(
+          content,
+          `Berkas ${filePath} wajib memuat istilah resmi "${expectedTerm}"`
+        ).toContain(expectedTerm);
+      }
     }
   });
 
-  it("memastikan seluruh 21 berkas MDX berhasil dikompilasi oleh compileDocArticle dengan minimal 2 sub-judul H2 (AC-UG-01, NFR-UG-02)", async () => {
+  it("memastikan seluruh 22 berkas MDX berhasil dikompilasi oleh compileDocArticle dengan minimal 2 sub-judul H2 (AC-UG-01, NFR-UG-02)", async () => {
     for (const article of allArticles) {
       const compiled = await compileDocArticle(article);
 
